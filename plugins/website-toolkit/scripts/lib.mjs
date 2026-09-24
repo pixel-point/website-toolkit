@@ -133,12 +133,69 @@ export function inventory(host, hostBin, runner = run, cwd) {
   return result;
 }
 
+export function pluginRequirements(host) {
+  return requirements.plugins.map(({ hosts, ...plugin }) => ({
+    ...plugin,
+    ...hosts?.[host],
+  }));
+}
+
+export function toolkitPlugins(host, state) {
+  const ids = new Set(
+    pluginRequirements(host).flatMap((p) =>
+      [p, ...(p.alternatives || [])].map(
+        (source) => `${p.name}@${source.marketplace}`,
+      ),
+    ),
+  );
+  return state.plugins.filter((p) => ids.has(p.id));
+}
+
 export function planPlugins({ host, hostBin, state, mode, only, source }) {
   const actions = [],
     blockers = [];
-  for (const p of requirements.plugins.filter(
-    (p) => !only || only.includes(p.name),
-  )) {
+  const specs = pluginRequirements(host);
+  const toolkit = specs.find((p) => p.name === "website-toolkit");
+  const oldToolkit = state.plugins.some(
+    (p) =>
+      p.id === `${toolkit.name}@${toolkit.marketplace}` &&
+      !versionAtLeast(p.version, toolkit.minimumVersion),
+  );
+  if (
+    oldToolkit &&
+    only?.includes("sanity") &&
+    !only.includes("website-toolkit")
+  ) {
+    blockers.push({
+      plugin: "website-toolkit",
+      reason: "toolkit_migration_required",
+      action:
+        "Include website-toolkit in setup to remove its legacy Sanity MCP before installing the official Sanity plugin.",
+    });
+  }
+  for (const spec of specs.filter((p) => !only || only.includes(p.name))) {
+    const sources = [spec, ...(spec.alternatives || [])];
+    const existing = state.plugins.filter((p) =>
+      p.id?.startsWith(`${spec.name}@`),
+    );
+    const selected = sources.find((s) =>
+      existing.some((p) => p.id === `${spec.name}@${s.marketplace}`),
+    );
+    if (
+      existing.some(
+        (p) => !sources.some((s) => p.id === `${spec.name}@${s.marketplace}`),
+      ) ||
+      new Set(existing.map((p) => p.id)).size > 1
+    ) {
+      blockers.push({
+        plugin: spec.name,
+        reason: "ambiguous_plugin_source",
+        action:
+          "Inspect the existing plugin source before installing a second copy; setup preserves existing installations.",
+      });
+      continue;
+    }
+    const p = { ...spec, ...selected };
     const id = `${p.name}@${p.marketplace}`;
     const installed = state.plugins.filter((i) => i.id === id);
     const market = state.marketplaces.find((m) => m.name === p.marketplace);
@@ -178,7 +235,12 @@ export function planPlugins({ host, hostBin, state, mode, only, source }) {
       });
       continue;
     }
-    if (mode === "update" && market?.ref) {
+    const needsUpgrade =
+      mode === "update" ||
+      (installed.length > 0 &&
+        p.minimumVersion &&
+        !versionAtLeast(installed[0].version, p.minimumVersion));
+    if (needsUpgrade && market?.ref) {
       blockers.push({
         plugin: p.name,
         reason: "pinned_marketplace",
@@ -198,7 +260,15 @@ export function planPlugins({ host, hostBin, state, mode, only, source }) {
           ...(host === "codex" ? ["--json"] : []),
         ],
       });
-    if (mode === "update" && market)
+    // Codex's upgrade command only accepts Git marketplaces. A local development
+    // marketplace is read directly when the plugin is added again.
+    const localCodexSource =
+      host === "codex" &&
+      p.name === "website-toolkit" &&
+      source &&
+      market?.source &&
+      path.resolve(market.source) === path.resolve(source);
+    if (needsUpgrade && market && !localCodexSource)
       actions.push({
         id: `refresh:${p.marketplace}`,
         command: hostBin,
@@ -210,7 +280,7 @@ export function planPlugins({ host, hostBin, state, mode, only, source }) {
           ...(host === "codex" ? ["--json"] : []),
         ],
       });
-    if (installed.length === 0 || mode === "update")
+    if (installed.length === 0 || needsUpgrade)
       actions.push({
         id: `plugin:${p.name}`,
         command: hostBin,

@@ -1,7 +1,9 @@
 # Sanity drafts and existing components
 
-Read the repository policy, relevant current schemas and actual deployed workspace
-schema. Load Sanity's current rules with the available rule tools when appropriate.
+Use the independently installed official Sanity plugin. Load its relevant skills and
+current rules when available, then read the repository policy, relevant current schemas
+and actual deployed workspace schema. If the plugin or authorization is missing,
+follow [setup](setup.md); do not add a duplicate MCP server.
 Use discovered tool schemas: the supported Sanity MCP has draft create/patch/query
 operations, but names and exact arguments must come from the current tool catalog.
 

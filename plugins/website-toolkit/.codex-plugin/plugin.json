@@ -1,6 +1,6 @@
 {
   "name": "website-toolkit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Manage an existing website through SiteOS, Prime and Sanity with guided setup.",
   "author": {
     "name": "Pixel Point",
@@ -21,6 +21,5 @@
     ]
   },
   "repository": "https://github.com/pixel-point/website-toolkit",
-  "homepage": "https://github.com/pixel-point/website-toolkit",
-  "mcpServers": "./.mcp.json"
+  "homepage": "https://github.com/pixel-point/website-toolkit"
 }

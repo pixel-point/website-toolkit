@@ -71,7 +71,14 @@ try {
       "--apply",
     ];
     const first = JSON.parse(execute(process.execPath, args, env));
-    assert.equal(first.plugins.length, 3);
+    assert.equal(first.plugins.length, 4);
+    assert(
+      first.plugins.some(
+        (p) =>
+          p.id ===
+          (host === "codex" ? "sanity@sanity" : "sanity@sanity-agent-toolkit"),
+      ),
+    );
     assert.equal(first.remainingActions.length, 0);
     assert(first.plugins.every((p) => p.enabled));
     const second = JSON.parse(execute(process.execPath, args, env));
@@ -83,7 +90,7 @@ try {
       execute(binary, ["plugin", "list", "--json"], env),
     );
     const installed = host === "codex" ? listed.installed : listed;
-    assert.equal(installed.length, 3);
+    assert.equal(installed.length, 4);
     if (host === "claude") {
       const self = installed.find(
         (p) => p.id === "website-toolkit@website-toolkit",
@@ -92,6 +99,14 @@ try {
       assert(
         existsSync(path.join(self.installPath, "skills/website/SKILL.md")),
       );
+      assert(!existsSync(path.join(self.installPath, ".mcp.json")));
+      const sanity = installed.find(
+        (p) => p.id === "sanity@sanity-agent-toolkit",
+      );
+      const mcp = JSON.parse(
+        readFileSync(path.join(sanity.installPath, ".mcp.json"), "utf8"),
+      );
+      assert.equal(mcp.mcpServers.Sanity.url, "https://mcp.sanity.io");
     }
     evidence.hosts.push({
       host,
@@ -100,7 +115,7 @@ try {
       repeatSetup: "no_changes",
     });
     console.log(
-      `${host} ${version}: three independent plugins installed; repeat setup made no changes.`,
+      `${host} ${version}: four independent plugins installed; repeat setup made no changes.`,
     );
   }
   mkdirSync(path.join(repository, ".artifacts"), { recursive: true });

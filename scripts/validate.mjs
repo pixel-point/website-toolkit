@@ -19,14 +19,12 @@ assert(
   !existsSync(path.join(root, ".website-toolkit")),
   "Do not publish project-local context",
 );
-assert.deepEqual(
-  Object.keys(json("plugins/website-toolkit/.mcp.json").mcpServers),
-  ["sanity"],
+assert(
+  !existsSync(path.join(plugin, ".mcp.json")),
+  "Provider plugins own MCP configuration",
 );
-assert.deepEqual(json("plugins/website-toolkit/.mcp.json").mcpServers.sanity, {
-  type: "http",
-  url: "https://mcp.sanity.io",
-});
+assert.equal(codex.mcpServers, undefined);
+assert.equal(claude.mcpServers, undefined);
 assert.deepEqual(readdirSync(path.join(plugin, "skills")), ["website"]);
 for (const file of [
   ".agents/plugins/marketplace.json",

@@ -2,7 +2,7 @@
 
 Manage an existing website through AI chat in **Codex and Claude Code**.
 One `website` skill coordinates **SiteOS**, **Prime** and **Sanity**, with guided setup,
-connection checks and project-specific context. SiteOS and Prime stay independently
+connection checks and project-specific context. SiteOS, Prime and Sanity stay independently
 installed and updated; their skills and MCP servers are never copied into this package.
 
 ## Start through chat
@@ -13,7 +13,7 @@ Open your website project in your coding assistant and paste:
 > Read its README and setup instructions, identify whether this session is Codex or
 > Claude Code, and check the available runtime and host CLI. Find my existing website
 > checkout or help me obtain the authorized repository. Install Website Toolkit and
-> missing SiteOS and Prime plugins from their own sources, along with the required CLIs.
+> missing SiteOS, Prime and Sanity plugins from their own sources, along with the required CLIs.
 > Preserve my existing configuration. Read the website's project instructions and
 > verify its domain, components and provider context. Guide me through sign-in to
 > Sanity, SiteOS and Prime, select the existing projects, and verify access. If a reload
@@ -55,9 +55,23 @@ Use `--host claude` for Claude Code. If PATH selects the wrong host version, pas
 reload, then ask the `website` skill to finish sign-in and resource verification.
 Installation does not authenticate you or prove access.
 
-The common installer uses `website-toolkit@website-toolkit`, `siteos@siteos` and
-`prime@prime-skills` from their own marketplaces. The toolkit contributes its own skill,
-setup helpers and Sanity's official OAuth MCP configuration. No custom server is needed.
+The common installer adds four independent plugins: Website Toolkit, SiteOS, Prime
+and the [official Sanity plugin](https://github.com/sanity-io/agent-toolkit).
+Website Toolkit contributes its orchestrator and setup helpers. Each provider owns
+its skills, MCP configuration and authentication flow.
+
+| Plugin | Codex | Claude Code |
+| --- | --- | --- |
+| Website Toolkit | `website-toolkit@website-toolkit` | `website-toolkit@website-toolkit` |
+| SiteOS | `siteos@siteos` | `siteos@siteos` |
+| Prime | `prime@prime-skills` | `prime@prime-skills` |
+| Sanity | `sanity@sanity` | `sanity@sanity-agent-toolkit` |
+
+Both hosts use Sanity's own `sanity-io/agent-toolkit` repository. An existing Claude
+Code installation from `anthropics/claude-plugins-official` is also recognized and
+reused. Sanity's plugin provides its MCP connection and skills.
+Complete the host's Sanity authorization prompt, then verify access to the existing
+website project and dataset. No manual MCP server entry or copied token is needed.
 
 ### Project context
 
@@ -85,7 +99,14 @@ Use `--source .` only for local development and retain it on local updates.
 Client installations use the canonical remote marketplace, even when the helper runs
 from a clone. Doctor and mutation commands without `--apply` do not write.
 Setup preserves working installations and reports source conflicts, disabled plugins,
-ambiguous scopes and pinned-ref upgrades instead of silently replacing them.
+ambiguous scopes and pinned-ref upgrades instead of silently replacing them. Resolve
+reported blockers before applying the plan.
+
+Version 0.2.0 moves Sanity MCP ownership to the official Sanity plugin. Setup upgrades
+an older Website Toolkit first and verifies the new version before installing Sanity.
+Reload the host afterwards and complete Sanity authorization if prompted. Existing
+manually configured Sanity servers are inspected by the skill; setup never silently
+removes a working connection or rewrites the website's MCP configuration.
 
 Managed CLIs and non-secret checkpoints live under `~/.local/share/website-toolkit`;
 override with `WEBSITE_TOOLKIT_HOME`. A separate npm cache avoids global installs,

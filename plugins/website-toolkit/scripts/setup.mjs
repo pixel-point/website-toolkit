@@ -18,13 +18,14 @@ import {
   requirements,
   run,
   toolkitHome,
+  toolkitPlugins,
   versionAtLeast,
 } from "./lib.mjs";
 
 const usage = `Website Toolkit setup (Node 22+)
   node setup.mjs doctor --host codex|claude [--host-bin PATH] [--project PATH]
   node setup.mjs install|update --host codex|claude --apply [--project PATH]
-      [--only website-toolkit,siteos,prime] [--source LOCAL_MARKETPLACE] [--with-cli]
+      [--only website-toolkit,siteos,prime,sanity] [--source LOCAL_MARKETPLACE] [--with-cli]
   node setup.mjs cli-install [--only siteos,prime] --apply
   node setup.mjs cli siteos|prime -- <provider arguments>
 Doctor and install/update without --apply do not write. Authentication is a separate guided step.`;
@@ -156,16 +157,13 @@ function checkpoint(home, options, state, completed) {
   const directory = path.join(home, "checkpoints");
   mkdirSync(directory, { recursive: true, mode: 0o700 });
   const file = path.join(directory, `${key}.json`);
-  const ownIds = new Set(
-    requirements.plugins.map((p) => `${p.name}@${p.marketplace}`),
-  );
   const record = {
     schemaVersion: 1,
     host: options.host,
     project: options.project,
     checkedAt: new Date().toISOString(),
     completedActions: completed,
-    plugins: state.plugins.filter((p) => ownIds.has(p.id)),
+    plugins: toolkitPlugins(options.host, state),
     nextStep: completed.length
       ? "reload_then_verify_provider_access"
       : "verify_provider_access",
@@ -227,9 +225,7 @@ try {
   const report = {
     host: o.host,
     project: projectInfo(o.project),
-    plugins: state.plugins.filter((p) =>
-      requirements.plugins.some((r) => p.id === `${r.name}@${r.marketplace}`),
-    ),
+    plugins: toolkitPlugins(o.host, state),
     clis: ["siteos", "prime"].map((n) => {
       const { executable, ...info } = cliInfo(n, home);
       return info;
@@ -239,7 +235,7 @@ try {
     nextStep:
       "Follow the skill setup reference for OAuth, account and project verification.",
   };
-  if (o.mode === "doctor" || !o.apply) {
+  if (o.mode === "doctor" || !o.apply || plan.blockers.length) {
     console.log(JSON.stringify(report, null, 2));
     process.exit(plan.blockers.length ? 2 : 0);
   }
@@ -258,18 +254,25 @@ try {
     }
     completed.push(action.id);
     // Resume trusts fresh inventory, not this checkpoint; successful exit alone is insufficient.
-    checkpoint(
-      home,
-      o,
-      inventory(o.host, o.hostBin, run, o.project),
-      completed,
-    );
+    const current = inventory(o.host, o.hostBin, run, o.project);
+    checkpoint(home, o, current, completed);
+    if (action.id === "plugin:website-toolkit") {
+      const migration = planPlugins({
+        ...o,
+        state: current,
+        mode: "install",
+        only: ["website-toolkit"],
+      });
+      if (migration.actions.length || migration.blockers.length)
+        throw new Error(
+          "Website Toolkit upgrade was not confirmed. Refresh its source to version 0.2.0 or later before adding Sanity, then rerun setup.",
+        );
+    }
   }
   const observed = inventory(o.host, o.hostBin, run, o.project);
   const remaining = planPlugins({ ...o, state: observed, mode: "install" });
-  report.plugins = observed.plugins.filter((p) =>
-    requirements.plugins.some((r) => p.id === `${r.name}@${r.marketplace}`),
-  );
+  report.plugins = toolkitPlugins(o.host, observed);
+  report.blockers = remaining.blockers;
   report.completedActions = completed;
   report.checkpoint = checkpoint(home, o, observed, completed);
   report.remainingActions = remaining.actions;

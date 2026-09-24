@@ -3,7 +3,30 @@
 Git distribution, documentation hosting and live client acceptance are separate results.
 The client guide remains a local static page until separately hosted.
 
-## Verified locally on 2026-09-24
+## Sanity plugin release verified on 2026-09-24
+
+- Website Toolkit 0.2.0 passed package checks and 19 installer/project-context tests.
+  These cover official sources, reuse of an existing Sanity plugin, migration ordering,
+  pinned/disabled choices and stopping when the old toolkit upgrade is unconfirmed.
+- Real installs into disposable configurations passed in Codex CLI
+  0.155.0-alpha.16.4 and Claude Code 2.1.12: Website Toolkit 0.2.0,
+  SiteOS 2.36.1, Prime 0.2.0+codex.20260904195611 and Sanity 1.0.0
+  were four independent enabled plugins. Repeating setup made no changes.
+- A separate isolated upgrade from a local legacy 0.1.0 fixture passed in both hosts:
+  setup replaced the toolkit before installing Sanity and reported no remaining actions.
+  Codex local development sources are re-read without a Git-only marketplace refresh.
+- Sanity was installed from `sanity-io/agent-toolkit` in both hosts. Claude's
+  installed Sanity plugin supplied `https://mcp.sanity.io`; the installed toolkit
+  contained no MCP configuration. A previously installed `sanity@claude-plugins-official`
+  is recognized by the planner and covered by unit tests.
+- Claude Code 2.1.12 rejected newer entries in the shared Anthropic catalog.
+  Using Sanity's own official marketplace avoids that catalog compatibility issue.
+- Codex plugin/skill validation and Claude marketplace/plugin validation passed.
+- The separate client guide passed formatting, lint, typecheck and production build.
+  Browser review confirmed Sanity installation instructions and the updated setup
+  prompt for both hosts. OAuth and live CMS access were not part of these tests.
+
+## Earlier 0.1.0 baseline verified on 2026-09-24
 
 - Package checks and 14 installer and project-context tests passed on Node 22+.
 - Real installs into disposable configurations passed in Codex CLI 0.144.6 and

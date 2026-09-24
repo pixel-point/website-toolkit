@@ -1,13 +1,13 @@
 ---
 name: website
-description: Set up Website Toolkit or coordinate an existing website's content, Sanity drafts, SEO and design work across SiteOS and Prime. Use for toolkit onboarding, connection repair or cross-tool website tasks; keep focused provider tasks with their installed skills.
+description: Set up Website Toolkit or coordinate an existing website's content, Sanity drafts, SEO and design work across SiteOS, Prime and Sanity. Use for toolkit onboarding, connection repair or cross-tool website tasks; keep focused provider tasks with their installed skills.
 ---
 
 # Website Toolkit
 
 Be the client's single entry point. Understand the requested website outcome and
 select the workflow without asking the client to choose tools or learn plugin commands.
-SiteOS and Prime are separate installed plugins, not bundled copies of their skills.
+SiteOS, Prime and Sanity are separate installed plugins, not bundled copies of their skills.
 
 ## Establish context
 
@@ -31,9 +31,9 @@ SiteOS and Prime are separate installed plugins, not bundled copies of their ski
 
 | Outcome                                                         | Instructions and provider                                                                              |
 | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| First setup, registration, missing CLI/MCP, update or reconnect | [Setup](references/setup.md); installed `siteos-cli`, `siteos-auth` and Prime readiness instructions   |
+| First setup, registration, missing CLI/MCP, update or reconnect | [Setup](references/setup.md); installed `siteos-cli`, `siteos-auth`, Prime readiness and Sanity plugin instructions   |
 | SEO/GEO, saved findings, research or website reports            | [SEO and evidence](references/seo.md); installed SiteOS orchestrator and focused skill                 |
-| Create a page from existing blocks, change copy or SEO fields   | [Sanity pages](references/sanity-pages.md); actual Sanity MCP tools and current website schemas        |
+| Create a page from existing blocks, change copy or SEO fields   | [Sanity pages](references/sanity-pages.md); installed Sanity skills/MCP and current website schemas        |
 | Build from a brief, Figma or reference URL; add a missing block | [Components](references/components.md); existing website components first, then installed Prime skills |
 | Preview, QA, publication readiness, or verify a fix             | [Verification](references/verification.md) plus the owning workflow                                    |
 

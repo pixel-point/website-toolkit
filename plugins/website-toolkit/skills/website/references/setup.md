@@ -44,11 +44,23 @@ when running the helper from a fresh clone. Use `--source` with the repository r
 for local development before publication, and retain that flag for local updates.
 Run `--help` for exact supported arguments.
 
-The helper uses independent `website-toolkit@website-toolkit`, `siteos@siteos` and
-`prime@prime-skills` packages. It does not copy provider skills or MCP servers. It
+The helper installs Website Toolkit, SiteOS, Prime and the official Sanity plugin
+independently. The first three use `website-toolkit@website-toolkit`, `siteos@siteos`
+and `prime@prime-skills`. Sanity uses `sanity@sanity` from `sanity-io/agent-toolkit`
+in Codex, and `sanity@sanity-agent-toolkit` from the same Sanity repository
+in Claude Code. An existing `sanity@claude-plugins-official` from
+`anthropics/claude-plugins-official` is reused in Claude Code. Sanity's own marketplace
+also works with Claude versions that cannot read the newer shared Anthropic catalog. See the [official installation instructions](https://github.com/sanity-io/agent-toolkit#option-3-install-plugin).
+The helper does not copy provider skills or MCP servers. It
 will not replace conflicting marketplaces, re-enable deliberately disabled plugins,
 or update a non-user/ambiguous scope. Resolve the specific conflict with the client.
-Do not uninstall working global plugins just to make the helper pass.
+Do not uninstall working global plugins just to make the helper pass. When a blocker
+exists, setup reports the plan without applying changes.
+
+Website Toolkit before 0.2.0 bundled a Sanity MCP. Setup upgrades that toolkit first
+and verifies the new version before adding the official Sanity plugin, preventing a
+second bundled connection. A pinned or disabled old toolkit must be resolved before
+this migration. Reload afterwards; the host may require new Sanity authorization.
 
 `install` is repeatable and keeps compatible installations. `update --apply --with-cli`
 updates only these packages and their private CLIs. Do it for an update request, not
@@ -119,12 +131,22 @@ Pass explicit `projectRoot` when the host starts outside the website checkout.
 
 ## Sanity and optional Figma
 
-Website Toolkit declares Sanity's official OAuth MCP at `https://mcp.sanity.io`.
+Install Sanity's official plugin through the same setup flow as SiteOS and Prime.
+The plugin owns its skills and MCP connection to `https://mcp.sanity.io`; Website
+Toolkit declares no provider MCP server. Load the installed Sanity instructions for
+the current task rather than copying its skills into the toolkit or website.
+
+Follow the host's authorization prompt. Sanity's Codex marketplace requests
+authentication on installation; a CLI package-install success still does not prove
+OAuth completion. In Claude Code, inspect `/mcp` when authentication needs attention.
+Use the host's actual namespaced server identity, not an invented login command.
 Do not copy `SANITY_VISUAL_EDITING_TOKEN` from the website or embed a bearer header.
-The website may already declare a Sanity MCP: detect duplicate server instances,
-reuse the correct authorized one, and resolve any host-local conflict without rewriting
-the tracked repository config. Use the host's actual server identity for OAuth, not
-an invented unnamespaced login command.
+
+The website or host may already declare a manual Sanity MCP. Inspect this before
+setup, reuse the correctly authorized connection during migration, and resolve
+redundant instances explicitly without rewriting tracked repository configuration
+or silently deleting user-owned connections. Do not add another manual MCP entry
+when the official plugin already supplies one.
 
 After sign-in, discover accessible projects/datasets and deployed workspace schemas.
 Match the existing website configuration using safe metadata and authorized tools;

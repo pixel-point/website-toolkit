@@ -1,11 +1,12 @@
 # Implementation and acceptance
 
-The approved design is a reusable website orchestrator, independently installed SiteOS
-and Prime plugins, and chat-driven setup in Codex and Claude Code. No upstream skills
+The approved design is a reusable website orchestrator, independently installed SiteOS,
+Prime and Sanity plugins, and chat-driven setup in Codex and Claude Code. No upstream skills
 are copied. Native Claude dependency declarations are optional; the common installer
 is the compatibility path and does not require recent dependency resolver features.
 
-1. Package one skill, conditional references, Sanity OAuth MCP, and both marketplaces.
+1. Package one skill, conditional references, provider requirements and both marketplaces.
+   Each provider plugin owns its MCP configuration and skills, including Sanity.
 2. Implement read-only inventory, source-checked plugin install/update, private CLI
    installation, readback and resumable non-secret installation evidence.
 3. Route provider sign-in through each installed provider's current instructions.

@@ -3,7 +3,8 @@
     {
       "name": "website-toolkit",
       "marketplace": "website-toolkit",
-      "repository": "pixel-point/website-toolkit"
+      "repository": "pixel-point/website-toolkit",
+      "minimumVersion": "0.2.0"
     },
     {
       "name": "siteos",
@@ -14,6 +15,23 @@
       "name": "prime",
       "marketplace": "prime-skills",
       "repository": "pixel-point/prime-skills"
+    },
+    {
+      "name": "sanity",
+      "marketplace": "sanity",
+      "repository": "sanity-io/agent-toolkit",
+      "hosts": {
+        "claude": {
+          "marketplace": "sanity-agent-toolkit",
+          "repository": "sanity-io/agent-toolkit",
+          "alternatives": [
+            {
+              "marketplace": "claude-plugins-official",
+              "repository": "anthropics/claude-plugins-official"
+            }
+          ]
+        }
+      }
     }
   ],
   "clis": {
