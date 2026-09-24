@@ -1,7 +1,7 @@
 # Implementation and acceptance
 
 The approved design is a reusable website orchestrator, independently installed SiteOS,
-Prime and Sanity plugins, and chat-driven setup in Codex and Claude Code. No upstream skills
+Prime, Sanity and conditional Vercel plugins, and chat-driven setup in Codex and Claude Code. No upstream skills
 are copied. Native Claude dependency declarations are optional; the common installer
 is the compatibility path and does not require recent dependency resolver features.
 
@@ -20,6 +20,12 @@ The installer does not claim to authenticate accounts or prove provider access. 
 steps require the client's account in a new/reloaded session, and are performed by the
 skill. Server-side roles remain the permission boundary. This local implementation
 must not be described as a production publishing or paid-research acceptance.
+
+Vercel uses a separate host-guided installation route within the same setup conversation.
+In Codex, the orchestrator discovers its official catalog entry, guides installation and
+authorization, then uses the official CLI for direct-to-file Development settings export.
+The deterministic helper still installs four plugins; its checkpoint does not verify
+Vercel installation or either Vercel session. See the [Vercel workflow](../plugins/website-toolkit/skills/website/references/vercel.md).
 
 The install prompt requires a pushed commit and access to its source; a public
 marketplace removes the GitHub invitation requirement for the toolkit. A local docs preview is not a hosted

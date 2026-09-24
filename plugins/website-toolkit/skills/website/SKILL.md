@@ -1,13 +1,13 @@
 ---
 name: website
-description: Set up Website Toolkit or coordinate an existing website's content, Sanity drafts, SEO and design work across SiteOS, Prime and Sanity. Use for toolkit onboarding, local website preparation, connection repair or cross-tool website tasks; keep focused provider tasks with their installed skills.
+description: Set up Website Toolkit or coordinate an existing website's content, Sanity drafts, SEO, design and local hosting settings across SiteOS, Prime, Sanity and Vercel. Use for toolkit onboarding, local website preparation, connection repair or cross-tool website tasks; keep focused provider tasks with their installed skills.
 ---
 
 # Website Toolkit
 
 Be the client's single entry point. Understand the requested website outcome and
 select the workflow without asking the client to choose tools or learn plugin commands.
-SiteOS, Prime and Sanity are separate installed plugins, not bundled copies of their skills.
+SiteOS, Prime, Sanity and Vercel are separate installed plugins, not bundled copies of their skills.
 
 ## Establish context
 
@@ -33,6 +33,7 @@ SiteOS, Prime and Sanity are separate installed plugins, not bundled copies of t
 | Outcome                                                         | Instructions and provider                                                                              |
 | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | First setup, registration, missing CLI/MCP, update or reconnect | [Setup](references/setup.md); installed `siteos-cli`, `siteos-auth`, Prime readiness and Sanity plugin instructions   |
+| Vercel connection or local environment settings | [Vercel](references/vercel.md), then [local preview](references/local-preview.md); official Vercel plugin and CLI |
 | SEO/GEO, saved findings, research or website reports            | [SEO and evidence](references/seo.md); installed SiteOS orchestrator and focused skill                 |
 | Create a page from existing blocks, change copy or SEO fields   | [Sanity pages](references/sanity-pages.md); installed Sanity skills/MCP and current website schemas        |
 | Build from a brief, Figma or reference URL; add a missing block | [Components](references/components.md); existing website components first, then installed Prime skills |

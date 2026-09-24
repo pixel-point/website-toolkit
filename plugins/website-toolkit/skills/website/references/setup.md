@@ -53,6 +53,11 @@ in Codex, and `sanity@sanity-agent-toolkit` from the same Sanity repository
 in Claude Code. An existing `sanity@claude-plugins-official` from
 `anthropics/claude-plugins-official` is reused in Claude Code. Sanity's own marketplace
 also works with Claude versions that cannot read the newer shared Anthropic catalog. See the [official installation instructions](https://github.com/sanity-io/agent-toolkit#option-3-install-plugin).
+For a Vercel-hosted website, also follow [Vercel setup](vercel.md) to install its
+official plugin through the host catalog, reuse its connection and verify access.
+This guided stage is part of the full setup, but is not performed by this helper.
+Do not interpret a four-plugin readback as proof that Vercel is connected.
+
 The helper does not copy provider skills or MCP servers. It
 will not replace conflicting marketplaces, re-enable deliberately disabled plugins,
 or update a non-user/ambiguous scope. Resolve the specific conflict with the client.
@@ -159,6 +164,14 @@ schema to fix missing schema access. The existing Studio deployment pipeline own
 Figma access is needed only for a Figma task. Reuse an available Figma provider and its
 mandatory skill instructions. If absent, guide supported installation/authentication;
 do not claim Prime grants Figma access.
+
+## Vercel account and local settings
+
+When the website uses Vercel, follow [Vercel](vercel.md). Discover and install the
+official plugin through the Codex catalog and complete its authorization, reusing
+existing installations. Check the local CLI's sign-in separately before downloading
+Development settings directly to a private file. Do not return secrets through chat
+tools, duplicate an MCP connection, or invoke deployment/bootstrap as a setup check.
 
 ## Prepare the local website
 

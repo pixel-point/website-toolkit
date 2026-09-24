@@ -1,8 +1,8 @@
 # Website Toolkit
 
 Manage an existing website through AI chat in **Codex and Claude Code**.
-One `website` skill coordinates **SiteOS**, **Prime** and **Sanity**, with guided setup,
-connection checks and project-specific context. SiteOS, Prime and Sanity stay independently
+One `website` skill coordinates **SiteOS**, **Prime**, **Sanity** and **Vercel** when used
+by the website, with guided setup and connection checks. These providers stay independently
 installed and updated; their skills and MCP servers are never copied into this package.
 
 ## Start through chat
@@ -14,6 +14,9 @@ Open your website project in your coding assistant and paste:
 > Claude Code, and check the available runtime and host CLI. Find my existing website
 > checkout or help me obtain the authorized repository. Install Website Toolkit and
 > missing SiteOS, Prime and Sanity plugins from their own sources, along with the required CLIs.
+> For a Vercel-hosted website, also install the official Vercel plugin through the host's
+> supported catalog, reusing existing connections. Guide me through confirmation and
+> authorization, and check the Vercel CLI's sign-in separately for local settings export.
 > Preserve my existing configuration. Read the website's project instructions and
 > verify its domain, components and provider context. Guide me through sign-in to
 > Sanity, SiteOS and Prime, select the existing projects, and verify access. If a reload
@@ -77,6 +80,12 @@ reused. Sanity's plugin provides its MCP connection and skills.
 Complete the host's Sanity authorization prompt, then verify access to the existing
 website project and dataset. No manual MCP server entry or copied token is needed.
 
+For Vercel-hosted websites, the same setup conversation also installs the **official
+Vercel plugin through the Codex catalog**. This is a host-guided step outside the
+four-plugin helper; the assistant must verify its installation and authorization
+separately. Vercel updates stay with its owning catalog. See [Vercel setup](plugins/website-toolkit/skills/website/references/vercel.md)
+for the current source compatibility and other-host guidance.
+
 ### From a new computer to a local preview
 
 The client guide can focus on Codex: install the desktop app, choose a local folder,
@@ -85,9 +94,10 @@ required software, provider plugins, local settings and the preview. GitHub is a
 account access step, not a client Git tutorial. The toolkit continues to support both
 hosts; the dedicated client documentation may present only the selected host.
 
-For a Vercel-hosted website, retrieve Development settings from the verified existing
+For a Vercel-hosted website, use the official Vercel CLI to retrieve Development settings from the verified existing
 project into the repository-supported, Git-ignored environment file. Preserve existing
-local values and never show or commit secrets. Missing access or settings requires an
+local values and never return secrets through chat tools, show or commit them. Plugin
+authorization and CLI sign-in are separate. Missing access or settings requires an
 invitation or an approved handoff from the website team. Do not fall back to Production.
 The assistant must verify a real page in the browser before calling local setup ready.
 See [website files and local preview](plugins/website-toolkit/skills/website/references/local-preview.md).

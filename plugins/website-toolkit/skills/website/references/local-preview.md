@@ -41,7 +41,12 @@ sign-in; plugin OAuth does not populate the website's environment files.
 ## Retrieve local settings from Vercel when applicable
 
 Use the hosting provider already configured for this website. These Vercel instructions
-are conditional, not a universal provider requirement. Read its current
+are conditional, not a universal provider requirement. First follow [Vercel](vercel.md)
+to install/reuse the official plugin, authorize its connection and verify the existing
+project. The common helper does not install Vercel; the orchestrator handles that
+through the host's plugin catalog. Plugin OAuth does not authenticate the local CLI.
+Keep exporting secret values on the local CLI path, never in a chat-tool response.
+Read its current
 [CLI environment documentation](https://vercel.com/docs/cli/env) and command `--help`
 when needed. Reuse a compatible CLI, or run the official `vercel` package using the
 available package runner. Do not add a hosting SDK to the website for onboarding.

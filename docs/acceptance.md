@@ -3,6 +3,27 @@
 Git distribution, documentation hosting and live client acceptance are separate results.
 The client guide remains a local static page until separately hosted.
 
+## Vercel setup guidance verified on 2026-09-24
+
+- Website Toolkit 0.2.2 passed package/reference validation, all 19 existing tests,
+  the Codex plugin and skill validators, and Claude plugin validation.
+- Codex catalog discovery returned the official Vercel plugin. No catalog installation,
+  account authorization or environment-variable export was performed on the user's account.
+- An isolated direct Git-source attempt with Codex CLI 0.155.0-alpha.16.4 added
+  `vercel/vercel-plugin` as a marketplace, but rejected `vercel-plugin@vercel`:
+  `plugin.json name vercel does not match marketplace plugin name vercel-plugin`.
+  The setup reference therefore routes Vercel through the official Codex catalog.
+  It does not vendor a manifest repair or add a failing fifth entry to the helper.
+- Vercel installation is a separate guided stage in the same chat. The helper still
+  manages four plugins; its checkpoint is not evidence for Vercel or CLI authentication.
+  The workflow uses the official CLI to export Development settings directly into a
+  private ignored file and keeps decrypted values out of chat-tool responses.
+- The separate client guide passed formatting, lint, typecheck and production build
+  with 13 indexed articles. Desktop and 390px browser review confirmed an immediately
+  visible setup prompt, the `RevenueCat/website` URL, working Vercel navigation and no
+  mobile horizontal overflow. After copying in the active browser, clipboard text
+  exactly matched the displayed prompt. No separate client application paste was tested.
+
 ## Sanity plugin release verified on 2026-09-24
 
 - Website Toolkit 0.2.0 passed package checks and 19 installer/project-context tests.

@@ -1,7 +1,7 @@
 # Website Toolkit plugin
 
 This repository owns one `website` orchestrator for Codex and Claude Code.
-SiteOS, Prime and Sanity remain independent plugins. Never vendor their skills, MCP servers,
+SiteOS, Prime, Sanity and Vercel remain independent plugins. Never vendor their skills, MCP servers,
 credentials, or private caches here.
 
 - Keep one user-facing skill in `plugins/website-toolkit/skills/website`.

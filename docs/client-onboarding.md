@@ -11,6 +11,8 @@ The guide's single setup prompt delegates these actions to the coding assistant:
 1. Obtain the authorized existing website repository and preserve existing local work.
 2. Read the website's instructions, install its runtime and dependencies.
 3. Install independent Website Toolkit, SiteOS, Prime and Sanity plugins as needed.
+   For this Vercel-hosted website, install the official Vercel plugin through the Codex
+   catalog as another guided step in the same conversation, reusing any existing connection.
 4. Sign in through each provider's supported flow and select existing resources.
 5. Retrieve approved local settings, using Vercel Development when appropriate.
 6. Start the website and verify actual content in a local browser preview.
@@ -25,6 +27,11 @@ private Git-ignored files; the assistant reports missing key names without expos
 values. The website team's secure settings handoff is available when the client does
 not have Vercel access. Do not fall back to Production or imply that Sanity plugin
 OAuth authenticates the website renderer.
+
+Vercel plugin authorization and local CLI sign-in are separate. The assistant explains
+an additional sign-in when needed, then exports settings directly to the local file
+with the CLI. It must not request secret values in an MCP response. The helper's
+four-plugin checkpoint does not verify the separate Vercel catalog installation.
 
 ## Proposed next step: SiteOS repository connection
 
