@@ -8,6 +8,11 @@ specific blocker and completed steps have been reported.
 
 ## Get the existing website
 
+For GitHub repositories, first follow [GitHub setup](github.md): install/reuse the
+official host plugin, prepare missing Git/CLI tools, guide browser sign-in and verify
+the exact repository plus local Git access. This can happen before downloading the
+toolkit. The client does not need to operate GitHub or install command-line tools by hand.
+
 1. Resolve the repository from the user's target or verified website context. The
    toolkit repository and the documentation repository are not the website.
 2. Inspect the selected folder and existing Git remote without reading secrets. Reuse
@@ -25,8 +30,10 @@ specific blocker and completed steps have been reported.
    give one short folder-selection instruction and a resume prompt.
 5. Recheck the cloned repository identity. Read AGENTS.md, README, package manifests,
    lockfiles, runtime declarations and relevant local guides before running scripts.
-   Do not recursively inspect unrelated repositories or alter the user's global Git
-   configuration. Missing repository access needs the correct invitation.
+   Do not recursively inspect unrelated repositories or alter unrelated Git settings.
+   The narrowly scoped GitHub credential setup in [GitHub setup](github.md) is the
+   only user-level Git configuration needed here. Missing repository access needs
+   the correct invitation or provider authorization, not a replacement repository.
 
 ## Install what the website requires
 

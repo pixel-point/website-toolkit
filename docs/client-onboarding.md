@@ -8,7 +8,9 @@ website folder. The general-purpose toolkit still supports Codex and Claude Code
 
 The guide's single setup prompt delegates these actions to the coding assistant:
 
-1. Obtain the authorized existing website repository and preserve existing local work.
+1. Connect the official GitHub plugin through the Codex catalog, prepare missing Git
+   and GitHub CLI tools, guide browser sign-in and verify local Git access. Obtain the
+   authorized existing website repository and preserve existing local work.
 2. Read the website's instructions, install its runtime and dependencies.
 3. Install independent Website Toolkit, SiteOS, Prime and Sanity plugins as needed.
    For this Vercel-hosted website, install the official Vercel plugin through the Codex
@@ -22,8 +24,14 @@ and completes account confirmations. The documentation website copies the prompt
 does not execute local setup or receive credentials. A button must describe that actual
 action, not claim that installation or account access is already complete.
 
-GitHub appears as an access step, not a manual Git tutorial. Vercel settings stay in
-private Git-ignored files; the assistant reports missing key names without exposing
+GitHub appears as an assisted connection step, not a manual Git tutorial. The agent
+handles plugin/local tool installation, credential integration and cloning. The client
+completes account confirmations and any invitation or organization approval. A plugin
+connection does not by itself authenticate local Git; reuse the installed plugin
+workflow or supported GitHub CLI browser sign-in. These guided steps are outside the
+four-plugin helper.
+
+Vercel settings stay in private Git-ignored files; the assistant reports missing key names without exposing
 values. The website team's secure settings handoff is available when the client does
 not have Vercel access. Do not fall back to Production or imply that Sanity plugin
 OAuth authenticates the website renderer.

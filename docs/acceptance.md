@@ -3,6 +3,25 @@
 Git distribution, documentation hosting and live client acceptance are separate results.
 The client guide remains a local static page until separately hosted.
 
+## GitHub setup guidance verified on 2026-09-24
+
+- Website Toolkit 0.2.3 passed package/reference validation, all 19 existing tests,
+  Codex plugin/skill validation and Claude plugin validation. The installer code and
+  its four managed plugin sources did not change.
+- Codex catalog discovery returned GitHub with a connector/CLI workflow. The new
+  reference follows the installed provider instructions, prepares missing Git/CLI tools,
+  checks local authentication separately and verifies access before cloning the exact
+  existing repository. It preserves working credentials and unrelated Git configuration.
+- Login, hostname-scoped credential setup, repository metadata and clone examples were
+  checked against official GitHub CLI documentation and local CLI 2.78.0 help. No new
+  GitHub installation, OAuth, credential-helper mutation, signup or client clone was run.
+- The separate guide passed formatting, lint, typecheck and production build with 14
+  indexed articles. Browser review confirmed GitHub navigation, the first-step setup
+  prompt, exact copied text and a 390px page without horizontal overflow.
+- Fresh-computer installation, plugin/CLI authorization, repository membership and
+  organization approval still require the client's actual account. A successful
+  documentation build or plugin catalog lookup does not establish that acceptance.
+
 ## Vercel setup guidance verified on 2026-09-24
 
 - Website Toolkit 0.2.2 passed package/reference validation, all 19 existing tests,

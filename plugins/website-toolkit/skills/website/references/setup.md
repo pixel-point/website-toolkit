@@ -10,6 +10,12 @@ website, then resolve [project context](project-context.md) from that checkout. 
 the optional profile there, never inside the installed toolkit. Verify its identity
 from the user's target and existing provider configuration.
 
+For a GitHub repository, [GitHub setup](github.md) comes before any download that
+requires Git access, including the toolkit itself. Install/reuse the official GitHub
+plugin through the host catalog, prepare local Git and GitHub CLI as needed, and guide
+sign-in. Verify repository access and local clone capability separately. The client
+performs browser confirmations; the assistant handles commands and downloads.
+
 ## Host and runtime
 
 Resolve the plugin root from this skill's installed location, never from an assumed
@@ -53,10 +59,11 @@ in Codex, and `sanity@sanity-agent-toolkit` from the same Sanity repository
 in Claude Code. An existing `sanity@claude-plugins-official` from
 `anthropics/claude-plugins-official` is reused in Claude Code. Sanity's own marketplace
 also works with Claude versions that cannot read the newer shared Anthropic catalog. See the [official installation instructions](https://github.com/sanity-io/agent-toolkit#option-3-install-plugin).
+GitHub is a host-guided stage outside this helper, following [GitHub setup](github.md).
 For a Vercel-hosted website, also follow [Vercel setup](vercel.md) to install its
 official plugin through the host catalog, reuse its connection and verify access.
 This guided stage is part of the full setup, but is not performed by this helper.
-Do not interpret a four-plugin readback as proof that Vercel is connected.
+Do not interpret a four-plugin readback as proof that GitHub or Vercel is connected.
 
 The helper does not copy provider skills or MCP servers. It
 will not replace conflicting marketplaces, re-enable deliberately disabled plugins,

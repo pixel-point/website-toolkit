@@ -1,7 +1,7 @@
 # Website Toolkit
 
 Manage an existing website through AI chat in **Codex and Claude Code**.
-One `website` skill coordinates **SiteOS**, **Prime**, **Sanity** and **Vercel** when used
+One `website` skill coordinates **GitHub**, **SiteOS**, **Prime**, **Sanity** and **Vercel** when used
 by the website, with guided setup and connection checks. These providers stay independently
 installed and updated; their skills and MCP servers are never copied into this package.
 
@@ -10,6 +10,11 @@ installed and updated; their skills and MCP servers are never copied into this p
 Open your website project in your coding assistant and paste:
 
 > Set up Website Toolkit from https://github.com/pixel-point/website-toolkit.
+> First connect the official GitHub plugin through the host catalog when using GitHub.
+> Install missing Git/GitHub CLI tools, follow supported browser sign-in and verify
+> local Git access to my existing repository. Handle commands for me; explain only
+> required confirmations or missing invitations. Reuse working credentials and
+> never ask me to create tokens or configure SSH.
 > Read its README and setup instructions, identify whether this session is Codex or
 > Claude Code, and check the available runtime and host CLI. Find my existing website
 > checkout or help me obtain the authorized repository. Install Website Toolkit and
@@ -80,10 +85,17 @@ reused. Sanity's plugin provides its MCP connection and skills.
 Complete the host's Sanity authorization prompt, then verify access to the existing
 website project and dataset. No manual MCP server entry or copied token is needed.
 
+The setup conversation starts with the **official GitHub plugin through the Codex
+catalog** for GitHub-hosted websites, plus local Git/GitHub CLI preparation as needed.
+This happens before an authenticated repository download, including the toolkit itself.
+Plugin authorization, local Git credentials and repository access are checked separately.
+The assistant performs installation and clone commands; the client confirms account/OS
+steps. See [GitHub setup](plugins/website-toolkit/skills/website/references/github.md).
+
 For Vercel-hosted websites, the same setup conversation also installs the **official
-Vercel plugin through the Codex catalog**. This is a host-guided step outside the
-four-plugin helper; the assistant must verify its installation and authorization
-separately. Vercel updates stay with its owning catalog. See [Vercel setup](plugins/website-toolkit/skills/website/references/vercel.md)
+Vercel plugin through the Codex catalog**. GitHub and Vercel are host-guided steps outside the
+four-plugin helper; the assistant must verify each installation and authorization
+separately. Their updates stay with the owning catalog. See [Vercel setup](plugins/website-toolkit/skills/website/references/vercel.md)
 for the current source compatibility and other-host guidance.
 
 ### From a new computer to a local preview
