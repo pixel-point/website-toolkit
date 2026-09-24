@@ -4,9 +4,11 @@ The client starts with one prompt. The agent performs supported setup actions; t
 client completes email/OAuth and organization invitation steps that require their identity.
 The deterministic helper installs packages. This workflow verifies authenticated access.
 
-Resolve [project context](project-context.md) from the website checkout first. Keep
-the optional profile there, never inside the installed toolkit. For initial setup,
-verify its identity from the user's target and existing provider configuration.
+For a missing checkout or a request to prepare the website locally, begin with
+[website files and local preview](local-preview.md). Download the authorized existing
+website, then resolve [project context](project-context.md) from that checkout. Keep
+the optional profile there, never inside the installed toolkit. Verify its identity
+from the user's target and existing provider configuration.
 
 ## Host and runtime
 
@@ -157,6 +159,14 @@ schema to fix missing schema access. The existing Studio deployment pipeline own
 Figma access is needed only for a Figma task. Reuse an available Figma provider and its
 mandatory skill instructions. If absent, guide supported installation/authentication;
 do not claim Prime grants Figma access.
+
+## Prepare the local website
+
+For full website onboarding, follow [local preview](local-preview.md) to install the
+website's own dependencies, retrieve approved local settings from its hosting provider
+and open a verified preview. Sanity/Prime/SiteOS sign-in alone does not make the local
+website runnable. Preserve partial progress when an invitation or missing setting
+requires the client or website team.
 
 ## Finish with evidence
 

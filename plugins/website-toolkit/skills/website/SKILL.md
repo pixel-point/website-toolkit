@@ -1,6 +1,6 @@
 ---
 name: website
-description: Set up Website Toolkit or coordinate an existing website's content, Sanity drafts, SEO and design work across SiteOS, Prime and Sanity. Use for toolkit onboarding, connection repair or cross-tool website tasks; keep focused provider tasks with their installed skills.
+description: Set up Website Toolkit or coordinate an existing website's content, Sanity drafts, SEO and design work across SiteOS, Prime and Sanity. Use for toolkit onboarding, local website preparation, connection repair or cross-tool website tasks; keep focused provider tasks with their installed skills.
 ---
 
 # Website Toolkit
@@ -11,7 +11,8 @@ SiteOS, Prime and Sanity are separate installed plugins, not bundled copies of t
 
 ## Establish context
 
-1. Read [project context](references/project-context.md). The website repository owns
+1. For a missing checkout or local website setup, first read [local preview](references/local-preview.md).
+   Otherwise read [project context](references/project-context.md). The website repository owns
    its domain, provider targets and source map; the plugin has no built-in client.
    An absent profile or null provider ID means unresolved, not permission to create resources.
 2. Use an already verified target from the conversation. Otherwise identify the actual
@@ -53,6 +54,10 @@ For SiteOS's other services use its existing focused skills; do not rebuild thos
 - On a host reload, provide one exact resume prompt. The checkpoint contains no secrets;
   re-read actual state before continuing. Never repeatedly reinstall working components.
 - New ordinary requests need a focused readiness check, not a full onboarding ceremony.
+
+Full website setup includes obtaining the authorized repository, installing the
+website's prerequisites, preparing local settings and opening a verified preview.
+Provider plugins and CLI installation alone are not completion of that request.
 
 ## Content and delivery
 

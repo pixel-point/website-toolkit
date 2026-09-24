@@ -19,7 +19,11 @@ Open your website project in your coding assistant and paste:
 > Sanity, SiteOS and Prime, select the existing projects, and verify access. If a reload
 > is needed, save progress and give me one resume prompt. Do not publish content, deploy
 > code, create replacement projects or run paid checks during setup. Tell me what is
-> ready and the next step for anything missing.
+> ready and the next step for anything missing. Prepare the website's local settings
+> from its existing hosting provider (Vercel Development settings when applicable),
+> install its dependencies, start its development server and open a verified preview.
+> Keep secrets out of chat and Git, preserve existing settings, and explain missing
+> access or values without substituting Production secrets.
 
 If this repository or the website source is private, the assistant needs your authorized
 Git access to download it. Public plugin distribution does not grant access to website
@@ -72,6 +76,21 @@ Code installation from `anthropics/claude-plugins-official` is also recognized a
 reused. Sanity's plugin provides its MCP connection and skills.
 Complete the host's Sanity authorization prompt, then verify access to the existing
 website project and dataset. No manual MCP server entry or copied token is needed.
+
+### From a new computer to a local preview
+
+The client guide can focus on Codex: install the desktop app, choose a local folder,
+and paste one setup prompt. The assistant handles authorized repository download,
+required software, provider plugins, local settings and the preview. GitHub is an
+account access step, not a client Git tutorial. The toolkit continues to support both
+hosts; the dedicated client documentation may present only the selected host.
+
+For a Vercel-hosted website, retrieve Development settings from the verified existing
+project into the repository-supported, Git-ignored environment file. Preserve existing
+local values and never show or commit secrets. Missing access or settings requires an
+invitation or an approved handoff from the website team. Do not fall back to Production.
+The assistant must verify a real page in the browser before calling local setup ready.
+See [website files and local preview](plugins/website-toolkit/skills/website/references/local-preview.md).
 
 ### Project context
 
