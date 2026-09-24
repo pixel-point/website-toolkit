@@ -1,0 +1,12 @@
+{
+  "name": "website-toolkit",
+  "interface": { "displayName": "Website Toolkit" },
+  "plugins": [
+    {
+      "name": "website-toolkit",
+      "source": { "source": "local", "path": "./plugins/website-toolkit" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Developer Tools"
+    }
+  ]
+}

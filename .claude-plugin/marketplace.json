@@ -1,0 +1,14 @@
+{
+  "name": "website-toolkit",
+  "owner": { "name": "Pixel Point" },
+  "metadata": {
+    "description": "Website orchestration for Sanity, SiteOS and Prime."
+  },
+  "plugins": [
+    {
+      "name": "website-toolkit",
+      "source": "./plugins/website-toolkit",
+      "description": "One chat workflow for website setup, content, pages and SEO."
+    }
+  ]
+}

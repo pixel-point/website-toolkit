@@ -1,0 +1,31 @@
+{
+  "plugins": [
+    {
+      "name": "website-toolkit",
+      "marketplace": "website-toolkit",
+      "repository": "pixel-point/website-toolkit"
+    },
+    {
+      "name": "siteos",
+      "marketplace": "siteos",
+      "repository": "pixel-point/siteos"
+    },
+    {
+      "name": "prime",
+      "marketplace": "prime-skills",
+      "repository": "pixel-point/prime-skills"
+    }
+  ],
+  "clis": {
+    "siteos": {
+      "package": "@siteoshq/cli",
+      "bin": "siteos",
+      "minimumVersion": "2.22.0"
+    },
+    "prime": {
+      "package": "@primeuicom/cli",
+      "bin": "primeui",
+      "minimumVersion": "1.5.0"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "name": "Acme website",
+  "website": "https://www.example.com",
+  "repositories": ["acme/website"],
+  "providers": {
+    "siteos": {
+      "origin": "https://app.siteos.sh",
+      "organizationId": null,
+      "projectId": null,
+      "environment": null
+    },
+    "sanity": { "projectId": null, "dataset": null, "workspace": null },
+    "prime": { "projectId": null }
+  },
+  "sourcePaths": {}
+}

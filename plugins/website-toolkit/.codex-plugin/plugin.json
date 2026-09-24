@@ -1,0 +1,26 @@
+{
+  "name": "website-toolkit",
+  "version": "0.1.0",
+  "description": "Manage an existing website through SiteOS, Prime and Sanity with guided setup.",
+  "author": {
+    "name": "Pixel Point",
+    "url": "https://github.com/pixel-point"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Website Toolkit",
+    "shortDescription": "Manage website content, pages and SEO through chat.",
+    "longDescription": "One workflow for guided setup, existing website components, Sanity drafts, SiteOS evidence and Prime-assisted implementation. Project context stays in the website repository.",
+    "developerName": "Pixel Point",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "Set up Website Toolkit for this website and verify my connections.",
+      "Review the latest saved SEO findings for this website.",
+      "Create a draft page using this website\u2019s existing components and design."
+    ]
+  },
+  "repository": "https://github.com/pixel-point/website-toolkit",
+  "homepage": "https://github.com/pixel-point/website-toolkit",
+  "mcpServers": "./.mcp.json"
+}

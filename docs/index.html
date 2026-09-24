@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A guided setup for managing your website through AI chat."
+    />
+    <title>Website Toolkit — Getting started</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="#"
+        ><span class="brand-mark" aria-hidden="true">W</span>Website Toolkit
+        <span class="brand-detail">by Pixel Point</span></a
+      ><a href="#start" class="nav-link"
+        >Get started <span aria-hidden="true">↗</span></a
+      >
+    </header>
+    <main>
+      <section class="hero">
+        <div class="eyebrow">
+          <span></span>Your website, through conversation
+        </div>
+        <h1>From a question<br />to a better website.</h1>
+        <p class="intro">
+          Understand your SEO, update content and create new pages.<br
+            class="desktop-break"
+          />
+          Start with one prompt. Your assistant connects the tools.
+        </p>
+        <a class="button primary" href="#start"
+          >Set up my workspace <span aria-hidden="true">→</span></a
+        >
+        <p class="small hero-note">
+          For Codex and Claude Code · Your existing website projects
+        </p>
+      </section>
+
+      <section class="tools" aria-label="Connected tools">
+        <div>
+          <span class="tool-name">Sanity</span
+          ><span>Content &amp; page drafts</span>
+        </div>
+        <div>
+          <span class="tool-name">SiteOS</span
+          ><span>SEO &amp; website evidence</span>
+        </div>
+        <div>
+          <span class="tool-name">Prime</span
+          ><span>Components &amp; design</span>
+        </div>
+      </section>
+
+      <section id="start" class="start section">
+        <div class="section-copy">
+          <div class="eyebrow">01 / Get connected</div>
+          <h2>One guided setup.<br />Your own accounts.</h2>
+          <p>
+            Open your AI app, choose it below, and paste the setup prompt into a
+            new conversation.
+          </p>
+          <p>
+            Your assistant checks what is installed, adds missing tools, and
+            guides you through sign-in. Have your website project invitations
+            ready.
+          </p>
+          <a
+            class="text-link"
+            href="https://github.com/pixel-point/website-toolkit"
+            >View the plugin repository <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="setup-card">
+          <div
+            class="host-choice"
+            role="group"
+            aria-label="Choose your AI application"
+          >
+            <button type="button" data-host="Codex" aria-pressed="true">
+              Codex</button
+            ><button type="button" data-host="Claude Code" aria-pressed="false">
+              Claude Code
+            </button>
+          </div>
+          <div class="prompt-label">
+            Paste this into <span id="host-label">Codex</span>
+          </div>
+          <textarea
+            id="setup-prompt"
+            readonly
+            aria-label="Setup prompt"
+            spellcheck="false"
+          ></textarea>
+          <button type="button" id="copy-setup" class="button primary full">
+            Copy setup prompt <span aria-hidden="true">↗</span>
+          </button>
+          <p
+            id="copy-status"
+            class="small status"
+            role="status"
+            aria-live="polite"
+          >
+            Paste this into a chat opened in your website project.
+          </p>
+        </div>
+      </section>
+
+      <section class="journey" aria-label="Setup steps">
+        <div>
+          <span class="step">1</span>
+          <h3>Check &amp; install</h3>
+          <p>
+            The assistant reuses your working tools and adds what is missing.
+          </p>
+        </div>
+        <div>
+          <span class="step">2</span>
+          <h3>Sign in</h3>
+          <p>
+            You complete email or browser confirmations using your accounts.
+          </p>
+        </div>
+        <div>
+          <span class="step">3</span>
+          <h3>Verify access</h3>
+          <p>
+            The assistant checks the right website projects and explains
+            anything still needed.
+          </p>
+        </div>
+      </section>
+
+      <section class="section examples">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">02 / Make something useful</div>
+            <h2>What would you like to do?</h2>
+          </div>
+          <p>You describe the result.<br />Your assistant chooses the tools.</p>
+        </div>
+        <div class="prompt-grid">
+          <article>
+            <span class="card-tag">Understand</span>
+            <h3>Find the next SEO improvements</h3>
+            <p>
+              Review the latest saved SEO findings for this website. Give me
+              five useful actions, with the affected pages and evidence dates.
+            </p>
+            <button type="button" class="copy-example">
+              Copy prompt <span aria-hidden="true">↗</span>
+            </button>
+          </article>
+          <article>
+            <span class="card-tag">Create</span>
+            <h3>Build a page from a brief</h3>
+            <p>
+              Create an English draft landing page from this brief using our
+              existing website blocks. Show me a preview before publishing.
+            </p>
+            <button type="button" class="copy-example">
+              Copy prompt <span aria-hidden="true">↗</span>
+            </button>
+          </article>
+          <article>
+            <span class="card-tag">Improve</span>
+            <h3>Update content with confidence</h3>
+            <p>
+              Update the headline and SEO description on this page using my
+              copy. Preserve the rest of the page and show me the changes in a
+              draft preview.
+            </p>
+            <button type="button" class="copy-example">
+              Copy prompt <span aria-hidden="true">↗</span>
+            </button>
+          </article>
+          <article>
+            <span class="card-tag">Design</span>
+            <h3>Turn a design into a section</h3>
+            <p>
+              Build a section from this design. Reuse our components first. If a
+              new component is needed, explain the gap and prepare the code and
+              Sanity integration for review.
+            </p>
+            <button type="button" class="copy-example">
+              Copy prompt <span aria-hidden="true">↗</span>
+            </button>
+          </article>
+        </div>
+        <p
+          id="example-status"
+          class="small status"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
+
+      <section class="review-note">
+        <span class="note-mark" aria-hidden="true">✓</span>
+        <div>
+          <h2>Review before it goes live.</h2>
+          <p>
+            New content starts as a draft. You can review the preview and
+            request publication when it is ready. New components may also need a
+            code release.
+          </p>
+        </div>
+      </section>
+
+      <section class="section faq">
+        <div class="eyebrow">A few useful details</div>
+        <h2>Before you begin</h2>
+        <details>
+          <summary>Do I need to install everything myself?</summary>
+          <p>
+            Your assistant handles supported installation from the setup prompt.
+            You may need to approve an operating-system prompt or complete a
+            sign-in. The setup currently targets local Codex and Claude Code on
+            macOS/Linux; Windows needs guided setup.
+          </p>
+        </details>
+        <details>
+          <summary>What accounts and access do I need?</summary>
+          <p>
+            You need access to the private plugin repository and the relevant
+            your website projects in Sanity, SiteOS and Prime. Creating a new
+            account does not grant access to the team's existing projects. The
+            assistant will tell you if an invitation is missing.
+          </p>
+        </details>
+        <details>
+          <summary>What if the assistant asks me to start a new chat?</summary>
+          <p>
+            Newly installed plugins may need a reload or new session. Copy the
+            resume prompt the assistant provides. It will check the completed
+            steps and continue without reinstalling working tools.
+          </p>
+        </details>
+        <details>
+          <summary>
+            Will setup change the live website or run paid checks?
+          </summary>
+          <p>
+            No. Setup installs tools and verifies access. Publishing pages,
+            deploying code and running paid research are separate actions with a
+            clear requested scope.
+          </p>
+        </details>
+        <details>
+          <summary>How do the tools stay up to date?</summary>
+          <p>
+            SiteOS and Prime remain independently installed. Ask: “Check and
+            update my website tools, then verify the connections.” The assistant
+            checks for conflicts and explains any required reload.
+          </p>
+        </details>
+      </section>
+    </main>
+    <footer>
+      <span>Website Toolkit · Prepared by Pixel Point</span
+      ><span>Documentation preview · Not yet published</span>
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>
