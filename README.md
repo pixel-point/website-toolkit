@@ -181,3 +181,12 @@ the local source. The repository must already be pushed and accessible for that 
 
 The static guide can be hosted separately. A Git push does not host it or grant client
 access; a localhost preview is only visible on the machine running it.
+
+## License
+
+Website Toolkit's plugin, skills, setup scripts and documentation are licensed under
+the [MIT License](LICENSE). Copyright (c) 2026 Pixel Point.
+
+A copy of the license is included in the installable
+[plugin directory](plugins/website-toolkit/LICENSE).
+Independently installed provider plugins and services retain their own licenses and terms.
