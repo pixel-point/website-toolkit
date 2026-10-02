@@ -21,7 +21,36 @@ Choose in this order:
 Explain the concrete blocker when skipping a close existing match. A high candidate
 score does not override wrong anatomy, interactions or content needs.
 
+## CMS content is the default
+
+For a CMS-managed page, new or changed marketing sections must use its existing content
+and composition pipeline. The client need not say "editable" or name the CMS. Map headings,
+body copy, card/list items, CTA labels/destinations, media selection/alt text and section/item
+order and visibility to CMS fields. Design tokens, layout variants, animation logic and
+generic interface labels can stay in code.
+
+For Sanity, load [Sanity pages](sanity-pages.md) and the installed Sanity plugin's relevant
+instructions before implementing the section, including when Prime is used. Do not inject
+a code-only section by URL/locale, split a CMS block array around it, or pass editorial
+content from local literals. Deleting or emptying CMS content must not restore seed data.
+
+An explicitly requested disposable prototype may use isolated fixtures excluded from
+production routing; identify it as non-CMS. A design reference, time pressure or missing
+CMS access is not an exception. If access, schema or draft preview is unavailable, continue
+safe source work but report CMS verification as blocked. Never quietly replace it with
+hardcoded content or claim the section is editable.
+
+Distinguish editable page content from prepared artwork. Internal illustration labels or
+numbers may be fixed only when disclosed as artwork and the editor can replace the whole
+asset through the CMS. Model internal text as fields when it needs editing. Do not present
+generated/mock artwork as an actual product screenshot or claim every detail is editable.
+
 ## Prime handoff
+
+Reuse or extension based only on the website's own source does not require Prime access.
+When entering a Prime-dependent workflow, follow its readiness gate. If unavailable, stop
+that provider workflow; continue only independent website-owned work and report the gap.
+Do not describe local-only work as Prime-validated.
 
 Discover and load installed `primeui-page-builder`. Use `figma-to-prime` for an actual
 Figma source, plus its required provider/readiness instructions. Use
@@ -54,9 +83,9 @@ private source or protected assets. For Figma, screenshot-only access cannot est
 exact structured geometry. Follow Prime's media/measurement rules and state pending assets.
 
 Run the actual owning lint/type/build checks and inspect the assembled page on desktop
-and mobile. Exercise its controls. For a cataloged supported block also inspect its
-Studio input/preview. A screenshot or successful export does not prove interaction or
-complete CMS integration. Follow [verification](verification.md).
+and mobile. Exercise its controls. Every new or materially changed CMS section requires
+the [editing acceptance checks](verification.md#cms-editing-acceptance), including the real
+Studio input and draft preview. A screenshot or successful export does not prove editing.
 
 Return the diff and preview; publish code/PR only within the requested scope. Make
 the dependency between deploying a new renderer and publishing its CMS content explicit.

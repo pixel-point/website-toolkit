@@ -1,6 +1,6 @@
 ---
 name: website
-description: Set up Website Toolkit or coordinate an existing website's GitHub checkout, content, Sanity drafts, SEO, design and local hosting settings. Use for toolkit onboarding, local website preparation, connection repair or work across GitHub, SiteOS, Prime, Sanity and Vercel; keep focused provider tasks with their installed skills.
+description: Set up Website Toolkit or coordinate an existing website's content, Sanity drafts, SEO, design and local hosting. Use for onboarding, connection repair, new website sections and cross-provider work; CMS sections require content integration even when the brief mentions only design. Keep focused provider tasks with their installed skills.
 ---
 
 # Website Toolkit
@@ -27,6 +27,11 @@ GitHub, SiteOS, Prime, Sanity and Vercel are separate installed plugins, not bun
    buttons and responsive conventions. Reuse the project's actual components first.
    Adapt any missing Prime component to that design. An external design or example
    does not authorize replacing the website's shared identity unless the user requests it.
+6. Identify the target page's content source before implementing a section. On a CMS-managed
+   page, editorial content and composition must remain in that CMS, even when the request
+   does not mention it. A component file, route-local folder or supplied copy does not
+   exempt the work. For Sanity, load [Sanity pages](references/sanity-pages.md) alongside
+   [Components](references/components.md); Prime supplies design/components, not CMS completion.
 
 ## Route the request
 
@@ -37,7 +42,7 @@ GitHub, SiteOS, Prime, Sanity and Vercel are separate installed plugins, not bun
 | Vercel connection or local environment settings | [Vercel](references/vercel.md), then [local preview](references/local-preview.md); official Vercel plugin and CLI |
 | SEO/GEO, saved findings, research or website reports            | [SEO and evidence](references/seo.md); installed SiteOS orchestrator and focused skill                 |
 | Create a page from existing blocks, change copy or SEO fields   | [Sanity pages](references/sanity-pages.md); installed Sanity skills/MCP and current website schemas        |
-| Build from a brief, Figma or reference URL; add a missing block | [Components](references/components.md); existing website components first, then installed Prime skills |
+| Build from a brief, Figma or reference URL; add a missing block | [Components](references/components.md); for Sanity pages also [Sanity pages](references/sanity-pages.md) and installed Sanity skills; use Prime for component gaps |
 | Preview, QA, publication readiness, or verify a fix             | [Verification](references/verification.md) plus the owning workflow                                    |
 
 Read only the references needed now. Discover provider skills by their installed

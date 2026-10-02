@@ -4,6 +4,8 @@ Use the independently installed official Sanity plugin. Load its relevant skills
 current rules when available, then read the repository policy, relevant current schemas
 and actual deployed workspace schema. If the plugin or authorization is missing,
 follow [setup](setup.md); do not add a duplicate MCP server.
+Missing access or an undeployed schema must not lead to route-level hardcoded content.
+Prepare safe source changes if useful, then report the precise blocked CMS step.
 Use discovered tool schemas: the supported Sanity MCP has draft create/patch/query
 operations, but names and exact arguments must come from the current tool catalog.
 
@@ -14,6 +16,7 @@ page document schema, composition field, eligible blocks, renderer, queries/serv
 types, locales, URL/metadata routing and Studio preview configuration. Discover any
 Markdown or other content representations the project maintains. No fixed document
 type, composition field name, directory structure or localization model is universal.
+Use persisted schema fields for mutations; a GROQ alias in page data is not a document field.
 If an older project skill disagrees with the current schema or routing implementation,
 resolve the mismatch before writing; never revive a removed publication flag by habit.
 
@@ -45,6 +48,9 @@ intersection until the deployment baseline is confirmed.
    before applying it. Never force-replace someone else's draft.
 7. Read back the exact document and validate required fields, references, block shapes,
    locale and slug. JSON acceptance alone is not schema or rendering validation.
+8. For a new or changed section, complete [CMS editing acceptance](verification.md#cms-editing-acceptance).
+   Do not treat seed JSON or a component fixture as the verified page draft. Seed files
+   may supply initial draft data through an authorized migration, never a runtime fallback.
 
 ## Preview and publication
 

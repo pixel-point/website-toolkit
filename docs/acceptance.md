@@ -3,6 +3,27 @@
 Git distribution, documentation hosting and live client acceptance are separate results.
 The client guide remains a local static page until separately hosted.
 
+## CMS component guidance checked on 2026-10-02 (0.2.5)
+
+- Component requests for CMS-managed pages now route through the content workflow even
+  when the brief only names a design. Instructions cover route-local components, missing
+  access, empty/deleted content, fixed artwork and real editing acceptance.
+- An independent read-only agent pass covered all six [workflow cases](../tests/evals/cms-components.md)
+  against a RevenueCat website checkout based on `2ff3ba82` plus candidate repository
+  instructions. It selected CMS integration for the visual brief, preserved the access
+  blocker, rejected fallback sample content, distinguished artwork from fields, honored
+  the explicit isolated-prototype exception and reused an already sufficient block.
+- Source inspection in that pass identified a persisted-field/query-alias mismatch and
+  overbroad translation instructions in the website's local skills. Those instructions
+  were corrected; no website runtime or live content was changed.
+- A follow-up read-only review confirmed the field mapping, locale scope and Prime
+  readiness boundaries are consistent with all six decisions. Package/reference validation
+  and all 19 tests passed; the changed skill frontmatter passed the skill validator.
+- This is decision-only evidence from an explicitly loaded skill, not proof of automatic
+  activation, generated implementation quality or a real Sanity editing session. No provider
+  authorization, draft mutation, publication or deployment occurred. Host installation
+  scripts are unchanged; installation acceptance was not rerun for these instruction edits.
+
 ## GitHub setup guidance verified on 2026-09-24
 
 - Website Toolkit 0.2.3 passed package/reference validation, all 19 existing tests,

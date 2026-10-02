@@ -169,6 +169,8 @@ npm run docs:preview
 No dependency installation is needed for repository checks. Host acceptance installs
 plugins into disposable configuration roots, repeats setup and checks the installed
 state. It does not sign in, mutate provider data or change your normal installation.
+Use the [CMS workflow evaluation cases](tests/evals/cms-components.md) to check agent
+decisions separately. Package/host tests do not prove that a generated section is CMS-editable.
 Set `WEBSITE_TOOLKIT_CODEX_BIN` or `WEBSITE_TOOLKIT_CLAUDE_BIN` if needed.
 Set `WEBSITE_TOOLKIT_TEST_SOURCE=remote` to verify the published marketplace instead of
 the local source. The repository must already be pushed and accessible for that check.
