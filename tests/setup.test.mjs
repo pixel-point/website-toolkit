@@ -81,6 +81,23 @@ test("repeat install is empty; update refreshes only the four owning sources", (
   }
 });
 
+test("full setup refreshes every provider regardless of its installed version", () => {
+  for (const host of ["codex", "claude"]) {
+    const state = ready(host);
+    state.plugins[2].version = "40.0.0+host.build";
+    assert.deepEqual(
+      plan(state, { host, mode: "update", only: ["prime"] }).actions.map(
+        (a) => a.id,
+      ),
+      ["refresh:prime-skills", "plugin:prime"],
+    );
+    state.marketplaces[2].ref = "v40.0.0";
+    const pinned = plan(state, { host, mode: "update", only: ["prime"] });
+    assert.deepEqual(pinned.actions, []);
+    assert.equal(pinned.blockers[0].reason, "pinned_marketplace");
+  }
+});
+
 test("conflicting source cannot be hijacked, even when the selector looks correct", () => {
   const state = ready();
   state.marketplaces[1].source = "https://github.com/other/siteos.git";
@@ -305,7 +322,7 @@ test("GitHub identity matching is exact and version floors exclude prereleases",
   assert(!versionAtLeast("2.23.1-beta", "2.22.0"));
 });
 
-test("managed CLI rejects an executable escaping its package and checks minimum version", () => {
+test("managed CLI rejects an executable escaping its package without claiming registry freshness", () => {
   const home = mkdtempSync(path.join(os.tmpdir(), "website-cli-test-"));
   try {
     const root = path.join(home, "tools/siteos/node_modules/@siteoshq/cli");
@@ -330,7 +347,8 @@ test("managed CLI rejects an executable escaping its package and checks minimum 
         bin: { siteos: "./cli.mjs" },
       }),
     );
-    assert.equal(cliInfo("siteos", home).compatible, false);
+    assert.equal(cliInfo("siteos", home).installed, true);
+    assert.equal(cliInfo("siteos", home).latestVersion, "not_checked");
   } finally {
     rmSync(home, { recursive: true, force: true });
   }
@@ -355,6 +373,69 @@ test("CLI plan is read-only and rejects unknown arguments before executing a hos
     );
     assert.notEqual(invalid.status, 0);
     assert.match(invalid.stderr, /Unsupported --only/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("installed plugins and a Prime binding never imply authenticated setup completion", () => {
+  const root = mkdtempSync(
+    path.join(os.tmpdir(), "website-installation-scope-"),
+  );
+  const home = path.join(root, "private-state");
+  try {
+    const binary = path.join(root, "host.mjs");
+    const state = ready();
+    writeFileSync(
+      binary,
+      `#!/usr/bin/env node
+const state = ${JSON.stringify(state)};
+const args = process.argv.slice(2);
+if (args[1] === 'list') console.log(JSON.stringify({ installed: state.plugins.map(p => ({ ...p, pluginId: p.id })) }));
+else if (args[2] === 'list') console.log(JSON.stringify({ marketplaces: state.marketplaces.map(m => ({ ...m, repo: m.source })) }));
+else process.exit(99);
+`,
+      { mode: 0o700 },
+    );
+    mkdirSync(path.join(root, ".primeui"));
+    writeFileSync(
+      path.join(root, ".primeui/project.json"),
+      '{"token":"must-not-be-read"}',
+    );
+    for (const mode of ["doctor", "install"]) {
+      const result = spawnSync(
+        process.execPath,
+        [
+          path.resolve("plugins/website-toolkit/scripts/setup.mjs"),
+          mode,
+          "--host",
+          "codex",
+          "--host-bin",
+          binary,
+          "--project",
+          root,
+          ...(mode === "install" ? ["--apply"] : []),
+        ],
+        {
+          encoding: "utf8",
+          env: { ...process.env, WEBSITE_TOOLKIT_HOME: home },
+        },
+      );
+      assert.equal(result.status, 0, result.stderr);
+      const report = JSON.parse(result.stdout);
+      assert.deepEqual(report.blockers, []);
+      assert.equal(report.project.primeBindingPresent, true);
+      assert.equal(report.verificationScope, "local_installation_only");
+      assert.equal(report.setupComplete, false);
+      assert.equal(report.providerAccess, "not_verified");
+      assert(!result.stdout.includes("must-not-be-read"));
+      if (mode === "doctor") assert(!existsSync(home));
+      else {
+        const checkpoint = JSON.parse(readFileSync(report.checkpoint, "utf8"));
+        assert.equal(checkpoint.setupComplete, false);
+        assert.equal(checkpoint.verificationScope, "local_installation_only");
+      }
+    }
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

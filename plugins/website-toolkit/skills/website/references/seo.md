@@ -21,11 +21,11 @@ substitute Sanity's built-in SEO inspector for SiteOS's measured evidence.
 
 For a requested check of specific published URLs, follow the installed SiteOS SEO
 technical-audit workflow. It supports new pages without requiring an earlier crawl.
-Verify the active CLI executable, version and command help first: this capability
-requires SiteOS CLI 2.34.0+ and a matching server. The toolkit's general setup minimum
-does not establish support for this newer operation.
+Verify the active CLI executable and the relevant command help against the currently
+installed SiteOS instructions. Check server support separately; a remembered release
+number or a general setup check does not establish support for this operation.
 
-If the CLI is too old, load `siteos-cli` and update only that SiteOS installation
+If the needed command is missing, load `siteos-cli` and update only that SiteOS installation
 through its supported method, preserving any managed-tool location, working sign-in
 and repository context. Respect explicit version pins and host approval requirements.
 Recheck command support after updating; do not upgrade unrelated providers or run a

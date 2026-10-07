@@ -12,15 +12,15 @@ import path from "node:path";
 import {
   cliInfo,
   inventory,
-  parseJson,
   planPlugins,
   projectInfo,
   requirements,
+  toolkitVersion,
   run,
   toolkitHome,
   toolkitPlugins,
-  versionAtLeast,
 } from "./lib.mjs";
+import { installCli } from "./managed-cli.mjs";
 
 const usage = `Website Toolkit setup (Node 22+)
   node setup.mjs doctor --host codex|claude [--host-bin PATH] [--project PATH]
@@ -29,6 +29,21 @@ const usage = `Website Toolkit setup (Node 22+)
   node setup.mjs cli-install [--only siteos,prime] --apply
   node setup.mjs cli siteos|prime -- <provider arguments>
 Doctor and install/update without --apply do not write. Authentication is a separate guided step.`;
+
+// This helper observes local installation only, even when every package is present.
+// Provider authorization and real website reads belong to the guided setup workflow.
+const installationBoundary = {
+  verificationScope: "local_installation_only",
+  setupComplete: false,
+  providerAccess: "not_verified",
+};
+
+function cliInventory(home) {
+  return ["siteos", "prime"].map((name) => {
+    const { executable, ...info } = cliInfo(name, home);
+    return info;
+  });
+}
 
 function parse(argv) {
   const [mode = "doctor", ...rest] = argv;
@@ -87,68 +102,6 @@ function parse(argv) {
   return options;
 }
 
-function installCli(names, home, apply, update = false) {
-  const report = [];
-  for (const name of names) {
-    const current = cliInfo(name, home),
-      spec = requirements.clis[name];
-    if (current.compatible && !update) {
-      report.push({
-        name,
-        status: "already_installed",
-        version: current.version,
-      });
-      continue;
-    }
-    if (!apply) {
-      report.push({
-        name,
-        status: "installation_planned",
-        package: spec.package,
-      });
-      continue;
-    }
-    const cache = path.join(home, "npm-cache");
-    mkdirSync(cache, { recursive: true, mode: 0o700 });
-    const version = parseJson(
-      run("npm", ["--cache", cache, "view", spec.package, "version", "--json"]),
-      `${name} package lookup`,
-    );
-    if (!versionAtLeast(version, spec.minimumVersion))
-      throw new Error(
-        `${name} registry version does not meet the required contract.`,
-      );
-    const result = run(
-      "npm",
-      [
-        "--cache",
-        cache,
-        "install",
-        "--prefix",
-        path.join(home, "tools", name),
-        "--no-audit",
-        "--no-fund",
-        "--ignore-scripts",
-        "--save-exact",
-        `${spec.package}@${version}`,
-      ],
-      { timeout: 180_000 },
-    );
-    if (!result.ok)
-      throw new Error(
-        `${name} installation failed; rerun doctor. No system package manager configuration was changed.`,
-      );
-    const installed = cliInfo(name, home);
-    if (!installed.compatible || installed.version !== version)
-      throw new Error(`${name} installation readback failed.`);
-    const check = run(process.execPath, [installed.executable, "--help"]);
-    if (!check.ok)
-      throw new Error(`${name} installed but --help failed. It is not ready.`);
-    report.push({ name, status: "installed", version });
-  }
-  return report;
-}
-
 function checkpoint(home, options, state, completed) {
   const key = createHash("sha256")
     .update(`${options.host}\0${options.project}`)
@@ -167,7 +120,7 @@ function checkpoint(home, options, state, completed) {
     nextStep: completed.length
       ? "reload_then_verify_provider_access"
       : "verify_provider_access",
-    providerAccess: "not_verified",
+    ...installationBoundary,
   };
   writeFileSync(`${file}.tmp`, JSON.stringify(record, null, 2) + "\n", {
     mode: 0o600,
@@ -189,9 +142,9 @@ try {
   const home = toolkitHome();
   if (o.mode === "cli") {
     const info = cliInfo(o.cli, home);
-    if (!info.compatible)
+    if (!info.installed)
       throw new Error(
-        "Managed CLI is missing or outdated. Run cli-install first.",
+        "Managed CLI is missing or invalid. Run cli-install first.",
       );
     // Never record or echo provider arguments: an auth command can contain a one-time token.
     const result = spawnSync(process.execPath, [info.executable, ...o.args], {
@@ -208,7 +161,7 @@ try {
       JSON.stringify(
         {
           clis: installCli(o.only || ["siteos", "prime"], home, o.apply),
-          providerAccess: "not_verified",
+          ...installationBoundary,
         },
         null,
         2,
@@ -226,12 +179,9 @@ try {
     host: o.host,
     project: projectInfo(o.project),
     plugins: toolkitPlugins(o.host, state),
-    clis: ["siteos", "prime"].map((n) => {
-      const { executable, ...info } = cliInfo(n, home);
-      return info;
-    }),
+    clis: cliInventory(home),
     ...plan,
-    providerAccess: "not_verified",
+    ...installationBoundary,
     nextStep:
       "Follow the skill setup reference for OAuth, account and project verification.",
   };
@@ -265,7 +215,7 @@ try {
       });
       if (migration.actions.length || migration.blockers.length)
         throw new Error(
-          "Website Toolkit upgrade was not confirmed. Refresh its source to version 0.2.0 or later before adding Sanity, then rerun setup.",
+          `Website Toolkit upgrade was not confirmed. Refresh its source to version ${toolkitVersion} or later, then rerun setup.`,
         );
     }
   }
@@ -277,12 +227,17 @@ try {
   report.checkpoint = checkpoint(home, o, observed, completed);
   report.remainingActions = remaining.actions;
   if (o.withCli)
-    report.cliInstall = installCli(
-      ["siteos", "prime"],
-      home,
-      true,
-      o.mode === "update",
-    );
+    report.cliInstall = installCli(["siteos", "prime"], home, true);
+  report.clis = cliInventory(home).map((info) => {
+    const checked = report.cliInstall?.find((item) => item.name === info.name);
+    return checked
+      ? {
+          ...info,
+          latestVersion: checked.latestVersion,
+          executableVerified: checked.executableVerified,
+        }
+      : info;
+  });
   report.nextStep = completed.length
     ? "Start a new session (or supported plugin reload), invoke website and verify provider sign-in and project access."
     : "Invoke website to verify provider sign-in and project access.";

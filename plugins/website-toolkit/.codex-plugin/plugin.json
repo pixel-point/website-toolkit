@@ -1,6 +1,6 @@
 {
   "name": "website-toolkit",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "license": "MIT",
   "description": "Manage an existing website through SiteOS, Prime and Sanity with guided setup.",
   "author": {
@@ -18,7 +18,7 @@
     "defaultPrompt": [
       "Set up Website Toolkit for this website and verify my connections.",
       "Review the latest saved SEO findings for this website.",
-      "Create a draft page using this website\u2019s existing components and design."
+      "Create a draft page using this website’s existing components and design."
     ]
   },
   "repository": "https://github.com/pixel-point/website-toolkit",

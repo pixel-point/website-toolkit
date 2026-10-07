@@ -17,6 +17,19 @@ export const requirements = JSON.parse(
   readFileSync(path.join(pluginRoot, "requirements.json"), "utf8"),
 );
 
+export const toolkitVersion = JSON.parse(
+  readFileSync(path.join(pluginRoot, ".codex-plugin/plugin.json"), "utf8"),
+).version;
+
+export function isStableVersion(value) {
+  return (
+    typeof value === "string" &&
+    /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:\+[0-9A-Za-z.-]+)?$/.test(
+      value,
+    )
+  );
+}
+
 export function toolkitHome(env = process.env) {
   return path.resolve(
     env.WEBSITE_TOOLKIT_HOME ||
@@ -68,7 +81,7 @@ export function repoIdentity(value) {
 
 export function versionAtLeast(actual, minimum) {
   const a = /^(?:v)?(\d+)\.(\d+)\.(\d+)(?:\+[^\s]+)?$/.exec(actual || "");
-  const b = /^(\d+)\.(\d+)\.(\d+)$/.exec(minimum);
+  const b = /^(?:v)?(\d+)\.(\d+)\.(\d+)(?:\+[^\s]+)?$/.exec(minimum || "");
   if (!a || !b) return false;
   for (let i = 1; i <= 3; i++) {
     if (+a[i] !== +b[i]) return +a[i] > +b[i];
@@ -136,6 +149,9 @@ export function inventory(host, hostBin, runner = run, cwd) {
 export function pluginRequirements(host) {
   return requirements.plugins.map(({ hosts, ...plugin }) => ({
     ...plugin,
+    ...(plugin.name === "website-toolkit"
+      ? { minimumVersion: toolkitVersion }
+      : {}),
     ...hosts?.[host],
   }));
 }
@@ -169,8 +185,7 @@ export function planPlugins({ host, hostBin, state, mode, only, source }) {
     blockers.push({
       plugin: "website-toolkit",
       reason: "toolkit_migration_required",
-      action:
-        "Include website-toolkit in setup to remove its legacy Sanity MCP before installing the official Sanity plugin.",
+      action: `Include website-toolkit in setup to meet version ${toolkit.minimumVersion} before installing Sanity. Toolkit versions before 0.2.0 also contain a legacy Sanity MCP.`,
     });
   }
   for (const spec of specs.filter((p) => !only || only.includes(p.name))) {
@@ -317,6 +332,7 @@ export function cliInfo(name, home) {
     const target = bin && path.resolve(packageRoot, bin);
     if (
       pkg.name !== spec.package ||
+      !isStableVersion(pkg.version) ||
       !target ||
       !existsSync(target) ||
       !realpathSync(target).startsWith(realpathSync(packageRoot) + path.sep)
@@ -326,7 +342,7 @@ export function cliInfo(name, home) {
       name,
       installed: true,
       version: pkg.version,
-      compatible: versionAtLeast(pkg.version, spec.minimumVersion),
+      latestVersion: "not_checked",
       executable: target,
     };
   } catch {

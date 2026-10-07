@@ -20,7 +20,9 @@ GitHub, SiteOS, Prime, Sanity and Vercel are separate installed plugins, not bun
    a developer's account, the first search result or a stale saved selection.
 3. Inspect available skills/tools for this task. A mention of another skill is not an
    installation. When required capability is missing, follow [setup](references/setup.md).
-   Installation and sign-in are prerequisites only for the workflow that needs them.
+   Focused tasks check only their required providers. Full onboarding must complete
+   the baseline in [setup](references/setup.md#completion-gate); do not make Prime or
+   SiteOS optional merely because the local website already renders.
 4. For source changes, read that checkout's AGENTS.md and current implementation.
    Preserve unrelated changes. A plugin install does not make stale source current.
 5. For website pages preserve the current layout, Header/Footer, typography, colors,
@@ -54,6 +56,14 @@ For SiteOS's other services use its existing focused skills; do not rebuild thos
 
 - A complete setup request authorizes installing missing toolkit prerequisites and
   initiating supported sign-in. Continue until ready or an actual human action is needed.
+- During full setup or a requested update, refresh official provider sources, resolve
+  latest stable CLIs, read back versions and verify required capabilities before using
+  the newly loaded instructions. Preserve deliberate pins and working credentials.
+  Do not treat a remembered version number as proof that an installation is current.
+- Keep the full setup checklist through sign-in and host reloads. A pending provider
+  means **setup incomplete**, not “mostly complete”. Run independent remaining steps
+  while awaiting a human action, then resume verification; do not make the client
+  discover missing services or ask to set each one up separately.
 - Ask for the minimum missing input. Reuse supplied email, target and authorization.
   Explain the one necessary email/OAuth/invitation step, then resume from current state.
 - Separate **installed**, **signed in**, **authorized for the client project**, and
@@ -65,6 +75,10 @@ For SiteOS's other services use its existing focused skills; do not rebuild thos
 Full website setup includes obtaining the authorized repository, installing the
 website's prerequisites, preparing local settings and opening a verified preview.
 Provider plugins and CLI installation alone are not completion of that request.
+Neither a successful `doctor` exit, an empty installation `blockers` list nor a
+`.primeui/project.json` file proves an authenticated connection. Finish with actual
+provider reads and a preview, or name the outstanding step. Only the user can defer
+a baseline provider; report that as partial setup and identify the unavailable workflow.
 
 ## Content and delivery
 

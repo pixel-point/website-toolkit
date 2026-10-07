@@ -1,6 +1,6 @@
 {
   "name": "website-toolkit",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "license": "MIT",
   "description": "Manage an existing website through SiteOS, Prime and Sanity with guided setup.",
   "author": {

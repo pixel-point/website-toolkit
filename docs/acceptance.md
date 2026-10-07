@@ -3,6 +3,38 @@
 Git distribution, documentation hosting and live client acceptance are separate results.
 The client guide remains a local static page until separately hosted.
 
+## Onboarding recovery checked on 2026-10-07 (0.2.6)
+
+- The previous setup reference still prescribed Prime's emailed Terminal command.
+  It now delegates to the current provider workflow. Full setup refreshes official
+  plugin sources and resolves stable npm `latest` for the CLIs, without upstream
+  version floors. It cannot silently omit Prime or SiteOS. Exact versions below are
+  evidence of this run, not evergreen setup requirements.
+- `npm run check` passed all 26 tests. New regressions cover a moving `latest` tag,
+  reusing a current installation, registry failures, prerelease rejection, executable
+  mismatch, explicit downgrade decisions, provider refresh regardless of version,
+  preserving pins, and installation-only verification despite a local Prime binding.
+  Doctor remains read-only and does not inspect binding secrets.
+- `npm run test:hosts` passed with an explicit Codex 0.160.1 executable from the
+  desktop application and Claude Code 2.1.12 in disposable configuration roots.
+  Both installed candidate Toolkit 0.2.6, SiteOS 2.64.0, Prime
+  0.4.0+codex.20261006012536 and Sanity 1.0.0 as independent enabled plugins;
+  repeat installation made no changes and an explicit source refresh passed in
+  both hosts. The old Codex 0.104.0 on PATH could not
+  enumerate plugins; using the verified host executable resolved that local mismatch.
+- A separate disposable managed CLI installation resolved SiteOS 2.40.0 and Prime
+  1.6.0 through npm `latest`, confirmed each executable's version and help, then
+  checked the registry again and reused both installations on repeat.
+  No login session or remote account/project was created. The skill validator passed.
+- The separate RevenueCat guide passed targeted formatting, lint, typecheck and
+  production build. Its generated search source contains 20 pages; all 20 built
+  documentation pages retain noindex. Built Quick start contains the revised setup
+  prompt and the Prime recovery link resolves to its generated heading.
+- Publication is a separate step from these checks. Package tests and host installs
+  do not establish a new client's browser approval,
+  SiteOS email confirmation, memberships or authenticated project reads. Those remain
+  explicit completion checks in the actual client session, including after a reload.
+
 ## CMS component guidance checked on 2026-10-02 (0.2.5)
 
 - Component requests for CMS-managed pages now route through the content workflow even

@@ -14,6 +14,9 @@ because a toolkit contains many tools. Preserve the repository's explicit requir
 | Code deployed      | Confirmed serving deployment; Git push and PR creation alone are not deployment                  |
 
 For setup, separately report installed, signed in, target resolved and verified.
+Use the [full setup completion gate](setup.md#completion-gate). A working preview with
+pending Prime/SiteOS is incomplete; an empty installation blocker list is not evidence
+of provider access. Checkpoint files record installation progress, not authenticated readiness.
 Do not create live content or spend research credits solely to turn a status green.
 
 For pages, verify the requested content and links, semantic headings/metadata, working

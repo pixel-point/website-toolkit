@@ -4,6 +4,34 @@ The client starts with one prompt. The agent performs supported setup actions; t
 client completes email/OAuth and organization invitation steps that require their identity.
 The deterministic helper installs packages. This workflow verifies authenticated access.
 
+## Completion gate
+
+For full onboarding, keep a checklist with the states **not checked**, **needs sign-in**,
+**needs access**, **verified**, or **deferred by the user**, plus the exact non-secret
+target and evidence. Do not turn an unknown or pending item into a success checkmark.
+
+| Required item | Completion evidence |
+| --- | --- |
+| Website Toolkit and provider plugins | Compatible enabled versions, with their current skills/tools available in this session |
+| GitHub for a GitHub-hosted website | Plugin connection, exact repository read and separate local Git access |
+| Sanity for a Sanity-managed website | Authorized plugin read of the website's project/dataset and necessary schema |
+| SiteOS | CLI and MCP authenticated reads, matching Organization, Project and environment; required service attachment verified |
+| Prime | Compatible CLI/plugin, real authorized project/health read for the website checkout and its MCP readiness check |
+| Vercel when used by the website | Plugin connection, separate CLI access to the existing team/project, approved Development settings saved privately |
+| Local website | Correct checkout and dependencies, required local settings, real page/content verified in a browser |
+
+SiteOS and Prime are baseline connections for the complete toolkit setup, even if the
+first task can run without them. Figma is required only for a Figma task. For a focused
+repair/task, verify only its dependencies instead of restarting onboarding.
+
+Declare **setup complete** only when every applicable required item is verified. If
+authorization, membership, a plugin reload or supported connector is missing, say
+**setup incomplete**, retain completed work and explain one actionable next step.
+Continue independent steps and resume after the user acts; a preview does not waive
+missing connections. Only an explicit user decision can defer a baseline item; name
+that partial scope and which workflows remain unavailable. Do not create live data
+or change service settings simply to satisfy this checklist.
+
 For a missing checkout or a request to prepare the website locally, begin with
 [website files and local preview](local-preview.md). Download the authorized existing
 website, then resolve [project context](project-context.md) from that checkout. Keep
@@ -43,7 +71,7 @@ browser-only chat cannot install software on the client's computer.
 
 ```sh
 node /absolute/plugin/scripts/setup.mjs doctor --host codex --project /absolute/website
-node /absolute/plugin/scripts/setup.mjs install --host codex --project /absolute/website --with-cli --apply
+node /absolute/plugin/scripts/setup.mjs update --host codex --project /absolute/website --with-cli --apply
 ```
 
 Use `--host claude` in Claude Code. These are illustrative absolute paths; resolve real
@@ -76,11 +104,29 @@ and verifies the new version before adding the official Sanity plugin, preventin
 second bundled connection. A pinned or disabled old toolkit must be resolved before
 this migration. Reload afterwards; the host may require new Sanity authorization.
 
-`install` is repeatable and keeps compatible installations. `update --apply --with-cli`
-updates only these packages and their private CLIs. Do it for an update request, not
-as a side effect of reading an SEO report. A pinned marketplace ref needs an explicit
+For full setup or a requested update, use `update --apply --with-cli`: it installs
+missing plugins and refreshes existing ones through their owning marketplaces. Read
+back their actual versions, check them against the refreshed provider source, and
+load the updated skills. Do not freeze upstream release numbers in this workflow.
+`install` only fills missing plugin installations; it is not a freshness check for
+existing providers. Do not update tools as a side effect of reading an SEO report.
+A pinned marketplace ref needs an explicit
 ref decision; refreshing it does not advance the pin. After partial failure, run doctor
 before retrying. The helper checkpoint is installation evidence, not auth evidence.
+Doctor reports `verificationScope: local_installation_only`, `setupComplete: false`
+and `providerAccess: not_verified` even with no installation blockers. This is expected:
+it does not make authenticated provider calls. `primeBindingPresent` only means a local
+file exists. Neither field can replace the completion checks above.
+
+Managed CLI setup resolves the provider's current npm `latest` tag, validates that
+it is a stable version, compares the local installation, installs that exact resolved
+version only if needed, and verifies the actual executable's `--version` and `--help`.
+A failed lookup does not mean an older installation is current. A different newer
+local version needs an explicit choice instead of an automatic downgrade.
+Before provider operations, follow its freshly loaded skill and check the relevant
+command's help/readiness checks. A version match alone cannot prove a needed feature
+or authenticated access. Record observed versions in verification evidence, not as
+evergreen instruction requirements.
 
 Managed CLI packages live in `WEBSITE_TOOLKIT_HOME` or the user's
 `~/.local/share/website-toolkit`, with their own npm cache. No global install or
@@ -101,10 +147,14 @@ confirmed CLI. Keep secrets out of printed commands and saved reports.
 Read back installations and versions. If the current session does not expose the new
 skills/tools, use the host's supported reload or ask for a new session. Do not invoke
 new tools against an old session catalog. Return this single resume prompt, filled
-with the user's real checkout path:
+with the user's real checkout path, verified target IDs and pending checklist items
+(never credentials or private config contents):
 
 > Use Website Toolkit to continue setup for [checkout path]. The plugins were
-> installed. Recheck readiness and finish provider sign-in and client project access.
+> installed, but full setup is incomplete. Verified: [items and targets]. Pending:
+> [items]. Recheck current state, finish every pending connection and verify the local
+> preview. Use the current provider instructions. Preserve working connections; do
+> not stop at package installation or skip Prime/SiteOS because the preview works.
 
 Doctor rechecks actual state; it does not trust a previous success flag.
 
@@ -119,7 +169,7 @@ and organization provisioning are owned by SiteOS.
 
 SiteOS's plugin owns its MCP configuration. Complete the host's OAuth flow for that
 server, then call the actual context discovery tool. CLI authentication is independent
-of MCP OAuth: verify both when the requested work needs both.
+of MCP OAuth: verify both during full onboarding, or the interfaces needed by a focused task.
 
 Discover authorized organizations and match the website's existing website Project.
 Select the explicit environment; no silent Production fallback. Verify service access
@@ -136,12 +186,25 @@ with the matching AI preset; inspect `setup --help` for values rather than guess
 For another framework, first establish support through Prime's current instructions;
 do not force a Next.js setup into an incompatible project.
 
-Use supported registration/sign-in with the client's email and organization details.
-The client completes an emailed secret command in their own terminal, not in a chat
-artifact. Explicitly resolve reuse of the existing client Prime project before binding;
+Use the latest installed Prime skill's current sign-in flow and verify its supported
+commands. Its browser setup starts sign-in when no matching account profile exists,
+including in non-interactive runs.
+Keep the CLI process alive while the client opens the verification URL, signs in and
+approves the displayed pairing code; continue setup automatically when it returns.
+Show the provider's URL if automatic browser opening fails. Handle commands in the
+assistant's terminal session; do not send the client to their Terminal or request an
+emailed bootstrap command. Do not select the legacy email login method. Browser
+approval is still a human step, not permission for unattended identity creation.
+On expiry or denial, report the actual state and resume with a fresh supported login
+when the client is ready, rather than marking Prime connected or silently skipping it.
+
+Explicitly resolve reuse of the existing client Prime project before binding;
 do not turn missing access into a duplicate project. Review setup's local diff and keep
 existing website instructions and source intact. Prime's plugin owns its MCP server.
 Pass explicit `projectRoot` when the host starts outside the website checkout.
+Verify an actual authorized project/health read and the provider's MCP readiness check.
+A local binding file alone is insufficient, and a stale/revoked account must remain
+pending until a real read succeeds. Do not export a component or create a page as a test.
 
 ## Sanity and optional Figma
 
@@ -190,7 +253,7 @@ requires the client or website team.
 
 ## Finish with evidence
 
-For each relevant service state: package installed, signed in, exact target resolved,
+Apply the completion gate above. For each relevant service state: package installed, signed in, exact target resolved,
 read permission verified, write permission known or still unverified. An auth screen
 closing is not a successful API read. Verify access using minimal read-only calls.
 Do not create CMS documents, enable services, start audits, spend credits or publish

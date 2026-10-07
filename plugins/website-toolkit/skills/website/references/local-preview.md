@@ -109,5 +109,7 @@ supported; do not create a CMS document or submit a live form as a smoke test.
 
 Report: website folder, preview URL, provider connection status, local settings
 readiness and any precise remaining blocker. Keep completed website preparation usable
-if an optional provider remains unavailable. On future sessions, inspect readiness and
+while a connection is pending, but full onboarding remains incomplete under the
+[setup completion gate](setup.md#completion-gate). Prime and SiteOS cannot be silently
+treated as optional in that request. On future sessions, inspect readiness and
 start the existing preview without repeating the entire onboarding flow.

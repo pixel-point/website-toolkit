@@ -60,7 +60,7 @@ try {
     const version = execute(binary, ["--version"], env).trim();
     const args = [
       helper,
-      "install",
+      "update",
       "--host",
       host,
       "--host-bin",
@@ -81,11 +81,18 @@ try {
     );
     assert.equal(first.remainingActions.length, 0);
     assert(first.plugins.every((p) => p.enabled));
-    const second = JSON.parse(execute(process.execPath, args, env));
+    const second = JSON.parse(
+      execute(process.execPath, [helper, "install", ...args.slice(2)], env),
+    );
     assert.deepEqual(second.completedActions, []);
     assert.equal(second.providerAccess, "not_verified");
     const cp = JSON.parse(readFileSync(first.checkpoint, "utf8"));
     assert.equal(cp.providerAccess, "not_verified");
+    const refreshed = JSON.parse(execute(process.execPath, args, env));
+    assert.equal(refreshed.remainingActions.length, 0);
+    assert.equal(refreshed.plugins.length, 4);
+    assert(refreshed.plugins.every((p) => p.enabled && p.version));
+    assert.equal(refreshed.providerAccess, "not_verified");
     const listed = JSON.parse(
       execute(binary, ["plugin", "list", "--json"], env),
     );
@@ -113,9 +120,11 @@ try {
       version,
       plugins: first.plugins,
       repeatSetup: "no_changes",
+      officialSourceRefresh: "passed",
+      refreshedPlugins: refreshed.plugins,
     });
     console.log(
-      `${host} ${version}: four independent plugins installed; repeat setup made no changes.`,
+      `${host} ${version}: four independent plugins installed; repeat install made no changes; explicit source refresh passed.`,
     );
   }
   mkdirSync(path.join(repository, ".artifacts"), { recursive: true });

@@ -19,6 +19,9 @@ Open your website project in your coding assistant and paste:
 > Claude Code, and check the available runtime and host CLI. Find my existing website
 > checkout or help me obtain the authorized repository. Install Website Toolkit and
 > missing SiteOS, Prime and Sanity plugins from their own sources, along with the required CLIs.
+> During this full setup, refresh plugins through their official marketplaces and
+> resolve the CLIs' latest stable releases. Verify the actual installed versions and
+> required commands, then follow the updated provider instructions.
 > For a Vercel-hosted website, also install the official Vercel plugin through the host's
 > supported catalog, reusing existing connections. Guide me through confirmation and
 > authorization, and check the Vercel CLI's sign-in separately for local settings export.
@@ -32,6 +35,12 @@ Open your website project in your coding assistant and paste:
 > install its dependencies, start its development server and open a verified preview.
 > Keep secrets out of chat and Git, preserve existing settings, and explain missing
 > access or values without substituting Production secrets.
+> Keep a checklist of every required connection. Follow each installed provider's
+> current sign-in flow; for Prime use browser approval, not an emailed Terminal command.
+> Keep its login process running while I approve, then resume. Verify SiteOS CLI and
+> MCP separately against the same existing target. Do not skip Prime or SiteOS because
+> the preview works. If a required connection is pending, say setup is incomplete and
+> guide the next action. After a reload, carry the completed and pending items forward.
 
 If this repository or the website source is private, the assistant needs your authorized
 Git access to download it. Public plugin distribution does not grant access to website
@@ -59,13 +68,18 @@ Use the **website checkout**, not this toolkit repository, as `--project`.
 
 ```sh
 node plugins/website-toolkit/scripts/setup.mjs doctor --host codex --project /path/to/website
-node plugins/website-toolkit/scripts/setup.mjs install --host codex --project /path/to/website --with-cli --apply
+node plugins/website-toolkit/scripts/setup.mjs update --host codex --project /path/to/website --with-cli --apply
 ```
 
 Use `--host claude` for Claude Code. If PATH selects the wrong host version, pass
 `--host-bin /path/to/the/correct/host`. Start a new session or use a supported plugin
 reload, then ask the `website` skill to finish sign-in and resource verification.
 Installation does not authenticate you or prove access.
+
+Full setup finishes only after the [completion gate](plugins/website-toolkit/skills/website/references/setup.md#completion-gate):
+verified project access for each required provider and a real local preview. A pending
+Prime/SiteOS connection means setup is incomplete, even if the preview already works.
+The assistant handles the remaining steps; the client completes required confirmations.
 
 The common installer adds four independent plugins: Website Toolkit, SiteOS, Prime
 and the [official Sanity plugin](https://github.com/sanity-io/agent-toolkit).
@@ -142,6 +156,18 @@ from a clone. Doctor and mutation commands without `--apply` do not write.
 Setup preserves working installations and reports source conflicts, disabled plugins,
 ambiguous scopes and pinned-ref upgrades instead of silently replacing them. Resolve
 reported blockers before applying the plan.
+
+Full setup refreshes plugins through their official marketplaces and reads back their
+versions before loading current instructions. Managed CLI installation resolves each
+provider's current npm `latest`, checks that it is stable, and verifies the installed
+executable's version and help. A matching installation is reused; no upstream release
+number is frozen in the setup requirements. Required commands and authenticated reads
+are checked separately. Registry failures, explicit pins and disabled plugins remain
+visible blockers. Ordinary website tasks do not automatically update all tools.
+`install` fills missing plugins; use `update --with-cli --apply` for full setup or updates.
+The helper reports `verificationScope: local_installation_only`, `setupComplete: false`
+and `providerAccess: not_verified`. Even a successful exit, no installation blockers or a
+present Prime binding file cannot establish access; the agent must perform the provider reads.
 
 Version 0.2.0 moves Sanity MCP ownership to the official Sanity plugin. Setup upgrades
 an older Website Toolkit first and verifies the new version before installing Sanity.

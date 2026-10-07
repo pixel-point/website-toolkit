@@ -12,12 +12,22 @@ The guide's single setup prompt delegates these actions to the coding assistant:
    and GitHub CLI tools, guide browser sign-in and verify local Git access. Obtain the
    authorized existing website repository and preserve existing local work.
 2. Read the website's instructions, install its runtime and dependencies.
-3. Install independent Website Toolkit, SiteOS, Prime and Sanity plugins as needed.
+3. Install/update independent Website Toolkit, SiteOS, Prime and Sanity plugins from
+   their current official sources. Resolve CLI `latest`, verify the actual executable
+   and required commands, then load the updated provider instructions.
    For this Vercel-hosted website, install the official Vercel plugin through the Codex
    catalog as another guided step in the same conversation, reusing any existing connection.
-4. Sign in through each provider's supported flow and select existing resources.
+4. Sign in through each provider's current supported flow and verify existing resources.
+   Prime uses browser approval; keep the login process alive
+   and resume after approval. Do not send the client an emailed Terminal command.
+   SiteOS CLI and MCP sign-in are independent; verify both against the same target.
 5. Retrieve approved local settings, using Vercel Development when appropriate.
 6. Start the website and verify actual content in a local browser preview.
+
+Keep these items as a completion checklist. A required pending connection means setup
+is incomplete, even with a working preview. Only the user can defer a baseline provider;
+report that as partial setup. Preserve verified targets and pending actions in the resume
+message after a host reload. The helper checks local installation, not authenticated access.
 
 The client installs/opens the desktop application, selects a folder, pastes the prompt
 and completes account confirmations. The documentation website copies the prompt; it
